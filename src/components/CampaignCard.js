@@ -1,26 +1,7 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import { useHistory } from "react-router-dom";
-
-const useStyles = makeStyles({
-    root: {
-        maxWidth: "25vw",
-    },
-    media: {
-        height: 140,
-    },
-});
+import { Button, Card } from "react-bootstrap";
 
 export default function CampaignCard({ drizzleState, elem }) {
-    const classes = useStyles();
-    const history = useHistory();
     const storeData = drizzleState.contracts[elem.address].getSummary[elem.key];
     if (!storeData) return null;
     const data = {
@@ -32,37 +13,15 @@ export default function CampaignCard({ drizzleState, elem }) {
     console.log("elem", storeData);
 
     return (
-        <Card className={classes.root}>
-            <CardActionArea>
-                <CardMedia
-                    className={classes.media}
-                    image={data.imageURL}
-                    title={data.title}
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {data.title}
-                    </Typography>
-                    <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                    >
-                        {data.description}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-            <CardActions>
-                <Button
-                    size="small"
-                    color="primary"
-                    onClick={() => {
-                        history.push(`/campaign/${elem.address}`);
-                    }}
-                >
-                    Learn More
+        <Card>
+            <Card.Img variant="top" src={data.imageURL} />
+            <Card.Body>
+                <Card.Title>{data.title}</Card.Title>
+                <Card.Text>{data.description}</Card.Text>
+                <Button variant="primary" href={`/campaign/${elem.address}`}>
+                    Learn more
                 </Button>
-            </CardActions>
+            </Card.Body>
         </Card>
     );
 }

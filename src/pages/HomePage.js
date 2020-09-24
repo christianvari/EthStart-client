@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Layout from "./components/Layout/Layout";
-import { Container } from "@material-ui/core";
-import CampaignCardsGrid from "./components/CampaignCardsGrid";
+import Layout from "../components/Layout/Layout";
+import CampaignCardsGrid from "../components/CampaignCardsGrid";
 
-function App({ drizzleContext }) {
+function HomePage({ drizzleContext }) {
     const { drizzle, drizzleState, initialized } = drizzleContext;
     const [keys, setKeys] = useState({});
     useEffect(() => {
@@ -17,19 +16,15 @@ function App({ drizzleContext }) {
     const displayData =
         initialized &&
         drizzleState.contracts.CampaignFactory &&
-        drizzleState.contracts.CampaignFactory.getDeployedCampaigns[
-            keys.activeCampaigns
-        ];
+        drizzleState.contracts.CampaignFactory.getDeployedCampaigns[keys.activeCampaigns];
     return (
         <Layout title="Running campaigns">
-            <Container maxWidth="xl">
-                <CampaignCardsGrid
-                    drizzleContext={drizzleContext}
-                    addresses={displayData && displayData.value}
-                />
-            </Container>
+            <CampaignCardsGrid
+                drizzleContext={drizzleContext}
+                addresses={displayData && displayData.value}
+            />
         </Layout>
     );
 }
 
-export default App;
+export default HomePage;

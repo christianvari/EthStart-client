@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
+import HomePage from "./pages/HomePage";
+import "bootstrap/dist/css/bootstrap.min.css";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { DrizzleContext } from "@drizzle/react-plugin";
@@ -17,16 +17,14 @@ ReactDOM.render(
                     <Route exact path="/">
                         <DrizzleContext.Consumer>
                             {(drizzleContext) => (
-                                <App drizzleContext={drizzleContext} />
+                                <HomePage drizzleContext={drizzleContext} />
                             )}
                         </DrizzleContext.Consumer>
                     </Route>
                     <Route path="/campaign/:address">
                         <DrizzleContext.Consumer>
                             {(drizzleContext) => (
-                                <CampaignInfoPage
-                                    drizzleContext={drizzleContext}
-                                />
+                                <CampaignInfoPage drizzleContext={drizzleContext} />
                             )}
                         </DrizzleContext.Consumer>
                     </Route>
@@ -42,7 +40,7 @@ ReactDOM.render(
             </Router>
         </DrizzleContext.Provider>
     </React.StrictMode>,
-    document.getElementById("root")
+    document.getElementById("root"),
 );
 
 // If you want your app to work offline and load faster, you can change

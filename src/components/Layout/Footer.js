@@ -1,13 +1,16 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Col, Container, Jumbotron, Row } from "react-bootstrap";
 
-export default ({ children }) => {
+export default () => {
     return (
-        <Typography
-            component="div"
-            style={{ backgroundColor: "#cfe800", height: "25vh" }}
-        >
-            {children}
-        </Typography>
+        <Jumbotron fluid style={{ marginBottom: 0, marginTop: "2rem" }}>
+            <Container fluid>
+                <Row>
+                    <Col>
+                        <p>Copyright @ Christian Vari</p>
+                    </Col>
+                </Row>
+            </Container>
+        </Jumbotron>
     );
 };

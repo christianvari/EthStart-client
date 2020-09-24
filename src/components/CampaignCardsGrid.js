@@ -1,22 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Campaign from "../contractsABI/Campaign.json";
 import CampaignCard from "./CampaignCard";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        height: "30vh",
-        width: "25vw",
-    },
-}));
+import { CardColumns, Container } from "react-bootstrap";
 
 export default function CampaignCardsGrid({ drizzleContext, addresses }) {
-    const classes = useStyles();
     const { drizzle, drizzleState, initialized } = drizzleContext;
     const [keys, setKeys] = useState(null);
     useEffect(() => {
@@ -25,15 +13,10 @@ export default function CampaignCardsGrid({ drizzleContext, addresses }) {
             const res = addresses.map((address) => {
                 const contractConfig = {
                     contractName: address,
-                    web3Contract: new drizzle.web3.eth.Contract(
-                        Campaign.abi,
-                        address
-                    ),
+                    web3Contract: new drizzle.web3.eth.Contract(Campaign.abi, address),
                 };
                 drizzle.addContract(contractConfig);
-                const key = drizzle.contracts[
-                    address
-                ].methods.getSummary.cacheCall();
+                const key = drizzle.contracts[address].methods.getSummary.cacheCall();
                 return {
                     address,
                     key,
@@ -45,22 +28,22 @@ export default function CampaignCardsGrid({ drizzleContext, addresses }) {
 
     const getCards = () => {
         if (!keys)
-            return [0, 1, 2].map((value) => (
-                <Grid key={value} item>
-                    <Paper className={classes.paper} />
-                </Grid>
-            ));
+            return (
+                <CardColumns>
+                    {[0, 1, 2].map((value) => (
+                        <Paper key={value} />
+                    ))}
+                </CardColumns>
+            );
         console.log(keys);
-        return keys.addresses.map((elem, id) => (
-            <Grid key={id} item xs={4}>
-                <CampaignCard drizzleState={drizzleState} elem={elem} />
-            </Grid>
-        ));
+        return (
+            <CardColumns>
+                {keys.addresses.map((elem, id) => (
+                    <CampaignCard key={id} drizzleState={drizzleState} elem={elem} />
+                ))}
+            </CardColumns>
+        );
     };
 
-    return (
-        <Grid container className={classes.root} spacing={2}>
-            {getCards()}
-        </Grid>
-    );
+    return <Container fluid>{getCards()}</Container>;
 }
