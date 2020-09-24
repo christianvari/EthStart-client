@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/EthStart-client/precache-manifest.5d4d148536faf4ab269ed93c0cdfd9c7.js"
+  "/EthStart-client/precache-manifest.330559b7531679d2914505e546b8e648.js"
 );
 
 self.addEventListener('message', (event) => {
