@@ -147,13 +147,15 @@ function CreateCampaignForm({ drizzle }) {
 
             <Button variant="primary" type="submit" disabled={loading}>
                 {loading && (
-                    <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                    />
+                    <>
+                        <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />{" "}
+                    </>
                 )}
                 Submit
             </Button>

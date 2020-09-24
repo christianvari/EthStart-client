@@ -5,7 +5,7 @@ import { Col, Container, Jumbotron, Row } from "react-bootstrap";
 
 export default ({ children, title, desc }) => {
     return (
-        <Container fluid>
+        <div>
             <Row>
                 <Col>
                     <Navigation />
@@ -37,6 +37,6 @@ export default ({ children, title, desc }) => {
                     <Footer />
                 </Col>
             </Row>
-        </Container>
+        </div>
     );
 };
