@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Paper from "@material-ui/core/Paper";
 import Campaign from "../contractsABI/Campaign.json";
 import CampaignCard from "./CampaignCard";
-import { CardColumns, Container } from "react-bootstrap";
+import { Card, CardColumns, Container } from "react-bootstrap";
 
 export default function CampaignCardsGrid({ drizzleContext, addresses }) {
     const { drizzle, drizzleState, initialized } = drizzleContext;
@@ -31,7 +30,7 @@ export default function CampaignCardsGrid({ drizzleContext, addresses }) {
             return (
                 <CardColumns>
                     {[0, 1, 2].map((value) => (
-                        <Paper key={value} />
+                        <Card key={value} />
                     ))}
                 </CardColumns>
             );

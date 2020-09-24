@@ -1,24 +1,6 @@
 import React, { useState } from "react";
-import {
-    TextField,
-    Button,
-    InputAdornment,
-    CircularProgress,
-} from "@material-ui/core";
-
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        "& .MuiTextField-root": {
-            marginTop: theme.spacing(2),
-        },
-        "& .MuiButton-root": {
-            marginTop: theme.spacing(4),
-        },
-    },
-}));
 
 function CreateCampaignForm({ drizzle }) {
     const [formData, setFormData] = useState({
@@ -30,11 +12,9 @@ function CreateCampaignForm({ drizzle }) {
         tokenSymbol: "",
         tokenMaxSupply: "",
     });
-    const [formDataErrors, setFormDataErrors] = useState({});
+    const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
     const history = useHistory();
-
-    const classes = useStyles();
 
     const sendTx = async () => {
         setLoading(true);
@@ -46,7 +26,7 @@ function CreateCampaignForm({ drizzle }) {
                 formData.description,
                 parseInt(formData.tokenMaxSupply),
                 formData.tokenName,
-                formData.tokenSymbol
+                formData.tokenSymbol,
             )
             .send();
         setLoading(false);
@@ -55,124 +35,129 @@ function CreateCampaignForm({ drizzle }) {
     };
 
     const handleChange = (event, field) => {
-        console.log(formData);
         const value = event.target.value;
         setFormData((old) => {
             return { ...old, [field]: value };
         });
     };
 
-    return (
-        <form
-            className={classes.root}
-            noValidate
-            autoComplete="off"
-            onSubmit={(e) => {
-                e.preventDefault();
-                let ok = true;
-                for (let element in formData) {
-                    if (!formData[element]) {
-                        setFormDataErrors((old) => {
-                            return { ...old, [element]: true };
-                        });
-                        ok = false;
-                    }
-                }
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
 
-                if (ok) {
-                    setFormDataErrors({});
-                    sendTx();
-                }
-            }}
-        >
-            <div>
-                <TextField
+        if (!form.checkValidity()) {
+            setValidated(true);
+            return;
+        }
+
+        setValidated(false);
+        sendTx();
+    };
+
+    return (
+        <Form noValidate validated={validated} onSubmit={onSubmit}>
+            <Form.Group>
+                <Form.Label>Title</Form.Label>
+                <Form.Control
                     required
-                    label="Title"
-                    fullWidth
-                    variant="outlined"
                     value={formData.title}
-                    error={formDataErrors.title}
                     onChange={(e) => handleChange(e, "title")}
+                    placeholder="Enter Title"
+                    type="text"
                 />
-            </div>
-            <div>
-                <TextField
+                <Form.Text className="text-muted">
+                    Insert the title of your Campaign
+                </Form.Text>
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Description</Form.Label>
+                <Form.Control
                     required
-                    label="Image URL"
-                    fullWidth
-                    variant="outlined"
-                    value={formData.imageURL}
-                    onChange={(e) => handleChange(e, "imageURL")}
-                    error={formDataErrors.imageURL}
-                />
-            </div>
-            <div>
-                <TextField
-                    required
-                    label="Description"
-                    fullWidth
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    value={formData.description}
+                    as="textarea"
+                    rows="3"
+                    placeholder="Enter Campaign description"
                     onChange={(e) => handleChange(e, "description")}
-                    error={formDataErrors.description}
+                    value={formData.description}
+                    type="text"
                 />
-            </div>
-            <div>
-                <TextField
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Image URL</Form.Label>
+                <Form.Control
                     required
-                    label="Minimum deposit"
-                    type="number"
-                    variant="outlined"
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">Wei</InputAdornment>
-                        ),
-                    }}
-                    value={formData.minimumDeposit}
-                    onChange={(e) => handleChange(e, "minimumDeposit")}
-                    error={formDataErrors.minimumDeposit}
+                    placeholder="Enter main image URL"
+                    onChange={(e) => handleChange(e, "imageURL")}
+                    value={formData.imageURL}
+                    type="url"
                 />
-                <TextField
-                    required
-                    label="Token name"
-                    variant="outlined"
-                    value={formData.tokenName}
-                    onChange={(e) => handleChange(e, "tokenName")}
-                    error={formDataErrors.tokenName}
-                />
-                <TextField
-                    required
-                    label="Token symbol"
-                    variant="outlined"
-                    value={formData.tokenSymbol}
-                    onChange={(e) => handleChange(e, "tokenSymbol")}
-                    error={formDataErrors.tokenSymbol}
-                />
-                <TextField
-                    required
-                    label="Token maxiumum supply"
-                    type="number"
-                    variant="outlined"
-                    value={formData.tokenMaxSupply}
-                    onChange={(e) => handleChange(e, "tokenMaxSupply")}
-                    error={formDataErrors.tokenMaxSupply}
-                />
-            </div>
-            <div>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={loading}
-                >
-                    Create
-                </Button>
-                {loading && <CircularProgress />}
-            </div>
-        </form>
+            </Form.Group>
+
+            <Row>
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Minumum deposit</Form.Label>
+                        <Form.Control
+                            required
+                            placeholder="Enter minimum deposit amount"
+                            onChange={(e) => handleChange(e, "minimumDeposit")}
+                            value={formData.minimumDeposit}
+                            type="number"
+                        />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Token name</Form.Label>
+                        <Form.Control
+                            required
+                            placeholder="Enter token name"
+                            onChange={(e) => handleChange(e, "tokenName")}
+                            value={formData.tokenName}
+                            type="text"
+                        />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Token symbol</Form.Label>
+                        <Form.Control
+                            required
+                            placeholder="Enter token symbol"
+                            onChange={(e) => handleChange(e, "tokenSymbol")}
+                            value={formData.tokenSymbol}
+                            type="text"
+                        />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Token max supply</Form.Label>
+                        <Form.Control
+                            required
+                            placeholder="Enter token max supply"
+                            onChange={(e) => handleChange(e, "tokenMaxSupply")}
+                            value={formData.tokenMaxSupply}
+                            type="number"
+                        />
+                    </Form.Group>
+                </Col>
+            </Row>
+
+            <Button variant="primary" type="submit" disabled={loading}>
+                {loading && (
+                    <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    />
+                )}
+                Submit
+            </Button>
+        </Form>
     );
 }
 
