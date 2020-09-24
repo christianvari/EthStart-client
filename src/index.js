@@ -12,7 +12,7 @@ import CampaignInfoPage from "./pages/CampaignInfoPage";
 ReactDOM.render(
     <React.StrictMode>
         <DrizzleContext.Provider drizzle={drizzle}>
-            <Router>
+            <Router basename="/EthStart-client">
                 <Switch>
                     <Route exact path="/">
                         <DrizzleContext.Consumer>
