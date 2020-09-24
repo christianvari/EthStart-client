@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8cf0ffa8e69f3b3fb6c186b52edc0d64",
+    "revision": "7703151ac3cc7c4dffa98683ce0928e2",
     "url": "/EthStart-client/index.html"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/EthStart-client/static/js/2.4a12cdb2.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6a8a8ecf63796b77da28",
-    "url": "/EthStart-client/static/js/main.ddae0110.chunk.js"
+    "revision": "4dad77d5fd2c79909d4a",
+    "url": "/EthStart-client/static/js/main.0cc0c77c.chunk.js"
   },
   {
     "revision": "208fbcc869dbc0c0647d",

@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.js": "/EthStart-client/static/js/main.ddae0110.chunk.js",
-    "main.js.map": "/EthStart-client/static/js/main.ddae0110.chunk.js.map",
+    "main.js": "/EthStart-client/static/js/main.0cc0c77c.chunk.js",
+    "main.js.map": "/EthStart-client/static/js/main.0cc0c77c.chunk.js.map",
     "runtime-main.js": "/EthStart-client/static/js/runtime-main.e3e89cfa.js",
     "runtime-main.js.map": "/EthStart-client/static/js/runtime-main.e3e89cfa.js.map",
     "static/css/2.d9ad5f5c.chunk.css": "/EthStart-client/static/css/2.d9ad5f5c.chunk.css",
     "static/js/2.4a12cdb2.chunk.js": "/EthStart-client/static/js/2.4a12cdb2.chunk.js",
     "static/js/2.4a12cdb2.chunk.js.map": "/EthStart-client/static/js/2.4a12cdb2.chunk.js.map",
     "index.html": "/EthStart-client/index.html",
-    "precache-manifest.330559b7531679d2914505e546b8e648.js": "/EthStart-client/precache-manifest.330559b7531679d2914505e546b8e648.js",
+    "precache-manifest.c390c2f03993605854178afa4c4d6d77.js": "/EthStart-client/precache-manifest.c390c2f03993605854178afa4c4d6d77.js",
     "service-worker.js": "/EthStart-client/service-worker.js",
     "static/css/2.d9ad5f5c.chunk.css.map": "/EthStart-client/static/css/2.d9ad5f5c.chunk.css.map",
     "static/js/2.4a12cdb2.chunk.js.LICENSE.txt": "/EthStart-client/static/js/2.4a12cdb2.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.e3e89cfa.js",
     "static/css/2.d9ad5f5c.chunk.css",
     "static/js/2.4a12cdb2.chunk.js",
-    "static/js/main.ddae0110.chunk.js"
+    "static/js/main.0cc0c77c.chunk.js"
   ]
 }
