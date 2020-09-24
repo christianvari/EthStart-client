@@ -4,15 +4,20 @@ import { useHistory } from "react-router-dom";
 
 export default function CampaignCard({ drizzleState, elem }) {
     const history = useHistory();
-    const storeData = drizzleState.contracts[elem.address].getSummary[elem.key];
-    if (!storeData) return null;
-    const data = {
-        title: storeData.value[4],
-        imageURL: storeData.value[6],
-        description: storeData.value[5],
-    };
+    let data;
+    try {
+        const contract = drizzleState.contracts[elem.address];
+        const storeData = contract.getSummary[elem.key];
+        data = {
+            title: storeData.value[4],
+            imageURL: storeData.value[6],
+            description: storeData.value[5],
+        };
+    } catch {
+        return null;
+    }
 
-    console.log("elem", storeData);
+    console.log("elem", data);
 
     return (
         <Card>

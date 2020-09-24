@@ -3,7 +3,7 @@ import Navigation from "./Navigation";
 import Footer from "./Footer";
 import { Col, Container, Jumbotron, Row } from "react-bootstrap";
 
-export default ({ children, title, desc }) => {
+export default ({ children, title, desc, jumbotronUrl }) => {
     return (
         <div>
             <Row>
@@ -13,7 +13,15 @@ export default ({ children, title, desc }) => {
             </Row>
             <Row>
                 <Col>
-                    <Jumbotron fluid>
+                    <Jumbotron
+                        fluid
+                        style={{
+                            backgroundImage: `url(${jumbotronUrl})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                        }}
+                    >
                         <Container fluid>
                             <Row>
                                 <Col>
