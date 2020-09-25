@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.js": "/EthStart-client/static/js/main.aca40f00.chunk.js",
-    "main.js.map": "/EthStart-client/static/js/main.aca40f00.chunk.js.map",
+    "main.js": "/EthStart-client/static/js/main.9502378f.chunk.js",
+    "main.js.map": "/EthStart-client/static/js/main.9502378f.chunk.js.map",
     "runtime-main.js": "/EthStart-client/static/js/runtime-main.e3e89cfa.js",
     "runtime-main.js.map": "/EthStart-client/static/js/runtime-main.e3e89cfa.js.map",
     "static/css/2.d9ad5f5c.chunk.css": "/EthStart-client/static/css/2.d9ad5f5c.chunk.css",
-    "static/js/2.dcc6a8b9.chunk.js": "/EthStart-client/static/js/2.dcc6a8b9.chunk.js",
-    "static/js/2.dcc6a8b9.chunk.js.map": "/EthStart-client/static/js/2.dcc6a8b9.chunk.js.map",
+    "static/js/2.ae12c5b0.chunk.js": "/EthStart-client/static/js/2.ae12c5b0.chunk.js",
+    "static/js/2.ae12c5b0.chunk.js.map": "/EthStart-client/static/js/2.ae12c5b0.chunk.js.map",
     "index.html": "/EthStart-client/index.html",
-    "precache-manifest.2858f710e6bd1e2799e51e37b15485c3.js": "/EthStart-client/precache-manifest.2858f710e6bd1e2799e51e37b15485c3.js",
+    "precache-manifest.da11d8cb3b9295ac70342d23f99dabf5.js": "/EthStart-client/precache-manifest.da11d8cb3b9295ac70342d23f99dabf5.js",
     "service-worker.js": "/EthStart-client/service-worker.js",
     "static/css/2.d9ad5f5c.chunk.css.map": "/EthStart-client/static/css/2.d9ad5f5c.chunk.css.map",
-    "static/js/2.dcc6a8b9.chunk.js.LICENSE.txt": "/EthStart-client/static/js/2.dcc6a8b9.chunk.js.LICENSE.txt"
+    "static/js/2.ae12c5b0.chunk.js.LICENSE.txt": "/EthStart-client/static/js/2.ae12c5b0.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.e3e89cfa.js",
     "static/css/2.d9ad5f5c.chunk.css",
-    "static/js/2.dcc6a8b9.chunk.js",
-    "static/js/main.aca40f00.chunk.js"
+    "static/js/2.ae12c5b0.chunk.js",
+    "static/js/main.9502378f.chunk.js"
   ]
 }
