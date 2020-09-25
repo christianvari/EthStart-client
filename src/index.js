@@ -23,9 +23,11 @@ ReactDOM.render(
                     </Route>
                     <Route path="/campaign/:address">
                         <DrizzleContext.Consumer>
-                            {(drizzleContext) => (
-                                <CampaignInfoPage drizzleContext={drizzleContext} />
-                            )}
+                            {(drizzleContext) =>
+                                drizzleContext.initialized && (
+                                    <CampaignInfoPage drizzleContext={drizzleContext} />
+                                )
+                            }
                         </DrizzleContext.Consumer>
                     </Route>
                     <Route path="/new">

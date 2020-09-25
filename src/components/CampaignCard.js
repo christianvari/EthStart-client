@@ -11,7 +11,7 @@ export default function CampaignCard({ drizzleState, elem }) {
         data = {
             title: storeData.value[4],
             imageURL: storeData.value[6],
-            description: storeData.value[5],
+            subTitle: storeData.value[7],
         };
     } catch {
         return null;

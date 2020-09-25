@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 function CreateCampaignForm({ drizzle }) {
     const [formData, setFormData] = useState({
         title: "",
+        subTitle: "",
         imageURL: "",
         description: "",
         minimumDeposit: "",
@@ -20,11 +21,14 @@ function CreateCampaignForm({ drizzle }) {
         setLoading(true);
         const stackId = await drizzle.contracts.CampaignFactory.methods
             .createCampaign(
-                parseInt(formData.minimumDeposit),
+                formData.minimumDeposit,
                 formData.title,
+                formData.subTitle,
                 formData.imageURL,
                 formData.description,
-                parseInt(formData.tokenMaxSupply),
+                (
+                    parseInt(formData.tokenMaxSupply) * Math.pow(10, 18)
+                ).toLocaleString("fullwide", { useGrouping: false }),
                 formData.tokenName,
                 formData.tokenSymbol,
             )
@@ -68,6 +72,17 @@ function CreateCampaignForm({ drizzle }) {
                 <Form.Text className="text-muted">
                     Insert the title of your Campaign
                 </Form.Text>
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Subtitle</Form.Label>
+                <Form.Control
+                    required
+                    value={formData.subTitle}
+                    onChange={(e) => handleChange(e, "subTitle")}
+                    placeholder="Enter subTitle"
+                    type="text"
+                />
             </Form.Group>
 
             <Form.Group>
