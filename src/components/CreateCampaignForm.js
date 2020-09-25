@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 function CreateCampaignForm({ drizzle }) {
@@ -26,15 +26,13 @@ function CreateCampaignForm({ drizzle }) {
                 formData.subTitle,
                 formData.imageURL,
                 formData.description,
-                (
-                    parseInt(formData.tokenMaxSupply) * Math.pow(10, 18)
-                ).toLocaleString("fullwide", { useGrouping: false }),
+                `${formData.tokenMaxSupply}000000000000000000`,
                 formData.tokenName,
                 formData.tokenSymbol,
             )
             .send();
         setLoading(false);
-        history.push(`/campaign/${stackId.to}`);
+        history.push("/");
         console.log(stackId);
     };
 
@@ -113,18 +111,26 @@ function CreateCampaignForm({ drizzle }) {
                 <Col>
                     <Form.Group>
                         <Form.Label>Minumum deposit</Form.Label>
-                        <Form.Control
-                            required
-                            placeholder="Enter minimum deposit amount"
-                            onChange={(e) => handleChange(e, "minimumDeposit")}
-                            value={formData.minimumDeposit}
-                            type="number"
-                        />
+                        <InputGroup className="mb-3">
+                            <Form.Control
+                                required
+                                placeholder="Enter minimum deposit amount"
+                                onChange={(e) => handleChange(e, "minimumDeposit")}
+                                value={formData.minimumDeposit}
+                                type="number"
+                                step="1"
+                                min="1"
+                            />
+                            <InputGroup.Append>
+                                <InputGroup.Text id="basic-addon2">Wei</InputGroup.Text>
+                            </InputGroup.Append>
+                        </InputGroup>
                     </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group>
                         <Form.Label>Token name</Form.Label>
+
                         <Form.Control
                             required
                             placeholder="Enter token name"
@@ -143,19 +149,29 @@ function CreateCampaignForm({ drizzle }) {
                             onChange={(e) => handleChange(e, "tokenSymbol")}
                             value={formData.tokenSymbol}
                             type="text"
+                            maxLength="5"
                         />
                     </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group>
                         <Form.Label>Token max supply</Form.Label>
-                        <Form.Control
-                            required
-                            placeholder="Enter token max supply"
-                            onChange={(e) => handleChange(e, "tokenMaxSupply")}
-                            value={formData.tokenMaxSupply}
-                            type="number"
-                        />
+                        <InputGroup className="mb-3">
+                            <Form.Control
+                                required
+                                placeholder="Enter token max supply"
+                                onChange={(e) => handleChange(e, "tokenMaxSupply")}
+                                value={formData.tokenMaxSupply}
+                                type="number"
+                                step="1"
+                                min="1"
+                            />
+                            <InputGroup.Append>
+                                <InputGroup.Text id="basic-addon2">
+                                    {formData.tokenSymbol}
+                                </InputGroup.Text>
+                            </InputGroup.Append>
+                        </InputGroup>
                     </Form.Group>
                 </Col>
             </Row>

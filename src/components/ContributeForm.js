@@ -1,75 +1,67 @@
-import React, { Component } from "react";
-import { Form, Input, Message, Button } from "semantic-ui-react";
-import Campaign from "../ethereum/campaign";
-import web3 from "../ethereum/web3";
-import isMetamaskInstalled from "../ethereum/metamaskCheck";
-import Router from "next/router";
+import React, { useState } from "react";
+import { Button, Form, Spinner } from "react-bootstrap";
+import addTokenToMetamask from "../metamask/addTokenToMetamask";
+import isMetamaskInstalled from "../metamask/isMetamaskInstalled";
 
-class ContributeForm extends Component {
-    state = {
-        value: "",
-        errorMessage: "",
-        loading: false,
-        isMetamaskInstalled: false
+const ContributeForm = ({ drizzle, address, data }) => {
+    const [value, setValue] = useState();
+    const [validated, setValidated] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const sendTx = async () => {
+        setLoading(true);
+        const userAddress = drizzle.store.getState().accounts[0];
+        await drizzle.contracts[address].methods
+            .contribute()
+            .send({ from: userAddress, value: drizzle.web3.utils.toWei(value, "ether") });
+        setLoading(false);
+        await addTokenToMetamask(data.tokenAddress, data.tokenSymbol, data.imageURL);
     };
 
-    async componentDidMount() {
-        if (isMetamaskInstalled()) {
-            this.setState({ isMetamaskInstalled: true });
-        }
-    }
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
 
-    onSubmit = async event => {
-        event.preventDefault();
-
-        const campaign = Campaign(this.props.address);
-
-        this.setState({ loading: true, errorMessage: "" });
-
-        try {
-            await web3.currentProvider.enable();
-            const accounts = await web3.eth.getAccounts();
-            await campaign.methods.contribute().send({
-                from: accounts[0],
-                value: web3.utils.toWei(this.state.value)
-            });
-            Router.replace(`/campaigns/${this.props.address}`);
-        } catch (error) {
-            this.setState({ errorMessage: error.message });
+        if (!form.checkValidity()) {
+            setValidated(true);
+            return;
         }
 
-        this.setState({ loading: false, value: "" });
+        setValidated(false);
+        sendTx();
     };
 
-    render() {
-        return (
-            <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
-                <Form.Field>
-                    <label>Amount to contribute</label>
-                    <Input
-                        onChange={event => {
-                            this.setState({ value: event.target.value });
-                        }}
-                        value={this.state.value}
-                        label="ether"
-                        labelPosition="right"
-                    />
-                </Form.Field>
-                <Message
-                    error
-                    header="Oops"
-                    content={this.state.errorMessage}
+    return (
+        <Form noValidate validated={validated} onSubmit={onSubmit}>
+            <Form.Group>
+                <Form.Label>Amount</Form.Label>
+                <Form.Control
+                    required
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    placeholder="Enter Amount"
+                    type="number"
                 />
-                <Button
-                    primary
-                    disabled={!this.state.isMetamaskInstalled}
-                    loading={this.state.loading}
-                >
-                    Contribute!
-                </Button>
-            </Form>
-        );
-    }
-}
+                <Form.Text className="text-muted">
+                    Insert the amount you want to send to the Campaign contract
+                </Form.Text>
+            </Form.Group>
+            <Button variant="primary" type="submit" disabled={!isMetamaskInstalled()}>
+                {loading && (
+                    <>
+                        <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />{" "}
+                    </>
+                )}
+                Contribute
+            </Button>
+        </Form>
+    );
+};
 
 export default ContributeForm;
