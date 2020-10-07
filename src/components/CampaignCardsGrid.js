@@ -10,7 +10,7 @@ export default function CampaignCardsGrid({ drizzleContext, addresses }) {
     if (!keys.current && initialized && addresses) {
         keys.current = addresses.map((address) => {
             addContract(address, drizzle, "Campaign");
-            const key = drizzle.contracts[address].methods.getSummary.cacheCall();
+            const key = drizzle.contracts[address].methods.getCampaignSummary.cacheCall();
             return {
                 address,
                 key,

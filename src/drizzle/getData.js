@@ -6,9 +6,11 @@ export default (drizzle, contract, method) => {
     if (!isContractCached) keys[contract] = {};
     let key = keys[contract][method];
     if (!key) {
-        key = drizzle.contracts[contract].methods[method].cacheCall();
+        key = drizzle.contracts[contract].methods[method].cacheCall({
+            from: state.accounts[0],
+        });
         keys[contract][method] = key;
     }
-    console.log(state);
+    console.log("getData", method, state.contracts[contract][method][key], state);
     return state.contracts[contract][method][key];
 };

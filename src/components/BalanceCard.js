@@ -1,47 +1,47 @@
 import React from "react";
-import { Button, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { Badge, Button, Card, Col, Row } from "react-bootstrap";
 import addTokenToMetamask from "../metamask/addTokenToMetamask";
 
 export default function BalanceCard({ data }) {
-    const overlay = (
-        <Tooltip id="tooltip-metamask">
-            Click here to add {data.tokenSymbol} to Metamask.
-        </Tooltip>
-    );
     return (
         <Card border="secondary">
-            <Card.Header>Your Balance</Card.Header>
+            <Card.Header>
+                {data.isFunded ? "Your Balance" : "Your allocated tokens"}
+            </Card.Header>
             <Card.Body>
                 <Row>
-                    <Col>
-                        <div
-                            style={{
-                                margin: "auto",
-                                width: "50%",
-                            }}
-                        >
-                            <OverlayTrigger placement="top" overlay={overlay}>
-                                <Button
-                                    variant="primary"
-                                    disabled={!data.balance}
-                                    onClick={() => {
-                                        addTokenToMetamask(
-                                            data.tokenAddress,
-                                            data.tokenSymbol,
-                                            data.imageURL,
-                                        );
-                                    }}
-                                >
-                                    <h1>
-                                        {`${data.balance || "0"} ${
-                                            data.tokenSymbol || ""
-                                        }`}
-                                    </h1>
-                                </Button>
-                            </OverlayTrigger>
-                        </div>
+                    <Col
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Badge variant="primary">
+                            <h1>{`${data.balance || "0"} ${data.tokenSymbol}`}</h1>
+                        </Badge>
                     </Col>
                 </Row>
+                {data.isFunded && (
+                    <Row>
+                        <Col>
+                            <Button
+                                onClick={() => {
+                                    addTokenToMetamask(
+                                        data.tokenAddress,
+                                        data.tokenSymbol,
+                                        data.imageURL,
+                                    );
+                                }}
+                            >
+                                Add this token to Metamask
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button>Redeem your tokens</Button>
+                        </Col>
+                    </Row>
+                )}
             </Card.Body>
         </Card>
     );

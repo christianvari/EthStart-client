@@ -8,10 +8,11 @@ function CreateCampaignForm({ drizzle }) {
         subTitle: "",
         imageURL: "",
         description: "",
-        minimumDeposit: "",
+        tokenPrice: "",
         tokenName: "",
         tokenSymbol: "",
         tokenMaxSupply: "",
+        fundingDays: "",
     });
     const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -19,21 +20,20 @@ function CreateCampaignForm({ drizzle }) {
 
     const sendTx = async () => {
         setLoading(true);
-        const stackId = await drizzle.contracts.CampaignFactory.methods
+        await drizzle.contracts.CampaignFactory.methods
             .createCampaign(
-                formData.minimumDeposit,
-                formData.title,
-                formData.subTitle,
+                drizzle.web3.utils.toWei(formData.tokenPrice, "ether"),
+                `${formData.title}%%%%%${formData.subTitle}`,
                 formData.imageURL,
                 formData.description,
-                `${formData.tokenMaxSupply}000000000000000000`,
+                drizzle.web3.utils.toWei(formData.tokenMaxSupply, "ether"),
                 formData.tokenName,
                 formData.tokenSymbol,
+                parseInt(formData.fundingDays) * 86400,
             )
             .send();
         setLoading(false);
         history.push("/");
-        console.log(stackId);
     };
 
     const handleChange = (event, field) => {
@@ -110,19 +110,19 @@ function CreateCampaignForm({ drizzle }) {
             <Row>
                 <Col>
                     <Form.Group>
-                        <Form.Label>Minumum deposit</Form.Label>
+                        <Form.Label>Token price</Form.Label>
                         <InputGroup className="mb-3">
                             <Form.Control
                                 required
-                                placeholder="Enter minimum deposit amount"
-                                onChange={(e) => handleChange(e, "minimumDeposit")}
-                                value={formData.minimumDeposit}
+                                placeholder="Enter token price"
+                                onChange={(e) => handleChange(e, "tokenPrice")}
+                                value={formData.tokenPrice}
                                 type="number"
-                                step="1"
-                                min="1"
+                                min="0.0000000001"
+                                step="0.0000000001"
                             />
                             <InputGroup.Append>
-                                <InputGroup.Text id="basic-addon2">Wei</InputGroup.Text>
+                                <InputGroup.Text id="basic-addon2">ETH</InputGroup.Text>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
@@ -170,6 +170,25 @@ function CreateCampaignForm({ drizzle }) {
                                 <InputGroup.Text id="basic-addon2">
                                     {formData.tokenSymbol}
                                 </InputGroup.Text>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group>
+                        <Form.Label>Funding Days</Form.Label>
+                        <InputGroup className="mb-3">
+                            <Form.Control
+                                required
+                                placeholder="Enter funding days"
+                                onChange={(e) => handleChange(e, "fundingDays")}
+                                value={formData.fundingDays}
+                                type="number"
+                                step="1"
+                                min="1"
+                            />
+                            <InputGroup.Append>
+                                <InputGroup.Text id="basic-addon2">Days</InputGroup.Text>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
