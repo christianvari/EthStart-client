@@ -3,14 +3,11 @@ import Navigation from "./Navigation";
 import Footer from "./Footer";
 import { Col, Container, Jumbotron, Row } from "react-bootstrap";
 
-export default ({ children, title, desc, jumbotronUrl }) => {
+const Layout = ({ children, title, desc, jumbotronUrl }) => {
     return (
-        <div>
-            <Row>
-                <Col>
-                    <Navigation />
-                </Col>
-            </Row>
+        <div className="Layout">
+            <Navigation />
+
             <Row>
                 <Col>
                     <Jumbotron
@@ -48,3 +45,5 @@ export default ({ children, title, desc, jumbotronUrl }) => {
         </div>
     );
 };
+
+export default Layout;
