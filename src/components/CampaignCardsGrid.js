@@ -1,34 +1,19 @@
-import React, { useRef } from "react";
+import { Grid } from "@mui/material";
+import React from "react";
 import CampaignCard from "./CampaignCard";
-import { CardColumns, Container } from "react-bootstrap";
-import addContract from "../drizzle/addContract";
 
-export default function CampaignCardsGrid({ drizzleContext, addresses }) {
-    const { drizzle, drizzleState, initialized } = drizzleContext;
-    let keys = useRef();
-
-    if (!keys.current && initialized && addresses) {
-        keys.current = addresses.map((address) => {
-            addContract(address, drizzle, "Campaign");
-            const key = drizzle.contracts[address].methods.getCampaignSummary.cacheCall();
-            return {
-                address,
-                key,
-            };
-        });
-    }
-    if (!keys.current) return null;
-
+export default function CampaignCardsGrid({ deployedCampaignsAddresses }) {
     const getCards = () => {
-        console.log("keys", keys.current);
-        return (
-            <CardColumns>
-                {keys.current.map((elem, id) => (
-                    <CampaignCard key={id} drizzleState={drizzleState} elem={elem} />
-                ))}
-            </CardColumns>
-        );
+        return deployedCampaignsAddresses.map((elem, id) => (
+            <Grid item xs={4} key={id}>
+                <CampaignCard contractAddress={elem} />
+            </Grid>
+        ));
     };
 
-    return <Container fluid>{getCards()}</Container>;
+    return (
+        <Grid sx={{ m: 1 }} container spacing={1}>
+            {getCards()}
+        </Grid>
+    );
 }

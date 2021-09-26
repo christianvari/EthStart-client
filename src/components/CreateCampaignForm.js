@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { Button, Col, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { utils } from "ethers";
+import { useCreateCampaign } from "../utils/CampaignFactoryInterfaces";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Grid, InputAdornment } from "@mui/material";
 
-function CreateCampaignForm({ drizzle }) {
+function CreateCampaignForm() {
     const [formData, setFormData] = useState({
         title: "",
         subTitle: "",
@@ -17,21 +22,22 @@ function CreateCampaignForm({ drizzle }) {
     const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
     const history = useHistory();
+    const { state, send } = useCreateCampaign();
 
-    const sendTx = async () => {
+    const sendTx = () => {
         setLoading(true);
-        await drizzle.contracts.CampaignFactory.methods
-            .createCampaign(
-                drizzle.web3.utils.toWei(formData.tokenPrice, "ether"),
-                `${formData.title}%%%%%${formData.subTitle}`,
-                formData.imageURL,
-                formData.description,
-                drizzle.web3.utils.toWei(formData.tokenMaxSupply, "ether"),
-                formData.tokenName,
-                formData.tokenSymbol,
-                parseInt(formData.fundingDays) * 86400,
-            )
-            .send();
+        send(
+            utils.parseEther(formData.tokenPrice),
+            `${formData.title}%%%%%${formData.subTitle}`,
+            formData.imageURL,
+            formData.description,
+            utils.parseEther(formData.tokenMaxSupply),
+            formData.tokenName,
+            formData.tokenSymbol,
+            parseInt(formData.fundingDays) * 86400,
+        );
+        console.log(state);
+
         setLoading(false);
         history.push("/");
     };
@@ -49,6 +55,7 @@ function CreateCampaignForm({ drizzle }) {
 
         if (!form.checkValidity()) {
             setValidated(true);
+            console.log("Error in the form");
             return;
         }
 
@@ -57,159 +64,128 @@ function CreateCampaignForm({ drizzle }) {
     };
 
     return (
-        <Form noValidate validated={validated} onSubmit={onSubmit}>
-            <Form.Group>
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                    required
-                    value={formData.title}
-                    onChange={(e) => handleChange(e, "title")}
-                    placeholder="Enter Title"
-                    type="text"
-                />
-                <Form.Text className="text-muted">
-                    Insert the title of your Campaign
-                </Form.Text>
-            </Form.Group>
-
-            <Form.Group>
-                <Form.Label>Subtitle</Form.Label>
-                <Form.Control
-                    required
-                    value={formData.subTitle}
-                    onChange={(e) => handleChange(e, "subTitle")}
-                    placeholder="Enter subTitle"
-                    type="text"
-                />
-            </Form.Group>
-
-            <Form.Group>
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                    required
-                    as="textarea"
-                    rows="3"
-                    placeholder="Enter Campaign description"
-                    onChange={(e) => handleChange(e, "description")}
-                    value={formData.description}
-                    type="text"
-                />
-            </Form.Group>
-
-            <Form.Group>
-                <Form.Label>Image URL</Form.Label>
-                <Form.Control
-                    required
-                    placeholder="Enter main image URL"
-                    onChange={(e) => handleChange(e, "imageURL")}
-                    value={formData.imageURL}
-                    type="url"
-                />
-            </Form.Group>
-
-            <Row>
-                <Col>
-                    <Form.Group>
-                        <Form.Label>Token price</Form.Label>
-                        <InputGroup className="mb-3">
-                            <Form.Control
-                                required
-                                placeholder="Enter token price"
-                                onChange={(e) => handleChange(e, "tokenPrice")}
-                                value={formData.tokenPrice}
-                                type="number"
-                                min="0.0000000001"
-                                step="0.0000000001"
-                            />
-                            <InputGroup.Append>
-                                <InputGroup.Text id="basic-addon2">ETH</InputGroup.Text>
-                            </InputGroup.Append>
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group>
-                        <Form.Label>Token name</Form.Label>
-
-                        <Form.Control
-                            required
-                            placeholder="Enter token name"
-                            onChange={(e) => handleChange(e, "tokenName")}
-                            value={formData.tokenName}
-                            type="text"
-                        />
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group>
-                        <Form.Label>Token symbol</Form.Label>
-                        <Form.Control
-                            required
-                            placeholder="Enter token symbol"
-                            onChange={(e) => handleChange(e, "tokenSymbol")}
-                            value={formData.tokenSymbol}
-                            type="text"
-                            maxLength="5"
-                        />
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group>
-                        <Form.Label>Token max supply</Form.Label>
-                        <InputGroup className="mb-3">
-                            <Form.Control
-                                required
-                                placeholder="Enter token max supply"
-                                onChange={(e) => handleChange(e, "tokenMaxSupply")}
-                                value={formData.tokenMaxSupply}
-                                type="number"
-                                step="1"
-                                min="1"
-                            />
-                            <InputGroup.Append>
-                                <InputGroup.Text id="basic-addon2">
+        <Box
+            sx={{
+                "& .MuiTextField-root": { m: 1 },
+                "& .MuiButton-root": { m: 1 },
+            }}
+            component="form"
+            noValidate
+            onSubmit={onSubmit}
+            autoComplete="off"
+        >
+            <TextField
+                required
+                error={validated}
+                id="outlined-required"
+                label="Title"
+                placeholder="Enter title"
+                fullWidth
+                onChange={(e) => handleChange(e, "title")}
+            />
+            <TextField
+                required
+                error={validated}
+                id="outlined-required"
+                label="Subtitle"
+                placeholder="Enter subtitle"
+                fullWidth
+                onChange={(e) => handleChange(e, "subTitle")}
+            />
+            <TextField
+                required
+                error={validated}
+                label="Description"
+                placeholder="Enter description"
+                multiline
+                maxRows={4}
+                minRows={2}
+                fullWidth
+                onChange={(e) => handleChange(e, "description")}
+            />
+            <TextField
+                error={validated}
+                label="Image URL"
+                placeholder="Enter image URL"
+                fullWidth
+                onChange={(e) => handleChange(e, "imageURL")}
+            />
+            <Grid container columnSpacing={1}>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Token price"
+                        placeholder="Enter token price"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">Ξ</InputAdornment>
+                            ),
+                        }}
+                        fullWidth
+                        type="number"
+                        onChange={(e) => handleChange(e, "tokenPrice")}
+                    />
+                </Grid>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Token name"
+                        placeholder="Enter token name"
+                        fullWidth
+                        onChange={(e) => handleChange(e, "tokenName")}
+                    />
+                </Grid>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Token ticker"
+                        placeholder="Enter token ticker"
+                        fullWidth
+                        onChange={(e) => handleChange(e, "tokenSymbol")}
+                    />
+                </Grid>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Token max supply"
+                        placeholder="Enter token max supply"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
                                     {formData.tokenSymbol}
-                                </InputGroup.Text>
-                            </InputGroup.Append>
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group>
-                        <Form.Label>Funding Days</Form.Label>
-                        <InputGroup className="mb-3">
-                            <Form.Control
-                                required
-                                placeholder="Enter funding days"
-                                onChange={(e) => handleChange(e, "fundingDays")}
-                                value={formData.fundingDays}
-                                type="number"
-                                step="1"
-                                min="1"
-                            />
-                            <InputGroup.Append>
-                                <InputGroup.Text id="basic-addon2">Days</InputGroup.Text>
-                            </InputGroup.Append>
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
-            </Row>
-
-            <Button variant="primary" type="submit" disabled={loading}>
-                {loading && (
-                    <>
-                        <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />{" "}
-                    </>
-                )}
+                                </InputAdornment>
+                            ),
+                        }}
+                        fullWidth
+                        type="number"
+                        onChange={(e) => handleChange(e, "tokenMaxSupply")}
+                    />
+                </Grid>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Funding days"
+                        placeholder="Enter funding days"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">Days</InputAdornment>
+                            ),
+                        }}
+                        fullWidth
+                        type="number"
+                        onChange={(e) => handleChange(e, "fundingDays")}
+                    />
+                </Grid>
+            </Grid>
+            <LoadingButton variant="contained" type="submit" loading={loading}>
                 Submit
-            </Button>
-        </Form>
+            </LoadingButton>
+        </Box>
     );
 }
 

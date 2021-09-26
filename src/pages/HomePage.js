@@ -1,9 +1,17 @@
 import React from "react";
-import Layout from "../components/Layout/Layout";
 import CampaignCardsGrid from "../components/CampaignCardsGrid";
+import { useGetDeployedCampaigns } from "../utils/CampaignFactoryInterfaces";
 
 function HomePage() {
-    return <Layout title="Running campaigns">{/* <CampaignCardsGrid /> */}</Layout>;
+    const deployedCampaignsAddresses = useGetDeployedCampaigns();
+
+    if (!deployedCampaignsAddresses) return null;
+
+    return (
+        <div className="HomePage">
+            <CampaignCardsGrid deployedCampaignsAddresses={deployedCampaignsAddresses} />
+        </div>
+    );
 }
 
 export default HomePage;

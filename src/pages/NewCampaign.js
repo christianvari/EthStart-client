@@ -1,21 +1,18 @@
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import React from "react";
-import Layout from "../components/Layout/Layout";
 import CreateCampaignForm from "../components/CreateCampaignForm";
-import { Container } from "react-bootstrap";
-import MetamaskLockedPagePrototype from "./prototypes/MetamaskLockedPagePrototype";
 
-function NewCampaign({ drizzleContext }) {
-    const { drizzle, initialized } = drizzleContext;
-
-    if (!initialized) return null;
+function NewCampaign() {
     return (
-        <Layout title="Create a new Campaign">
-            <MetamaskLockedPagePrototype>
-                <Container fluid>
-                    <CreateCampaignForm drizzle={drizzle} />
-                </Container>
-            </MetamaskLockedPagePrototype>
-        </Layout>
+        <div>
+            <Box sx={{ mt: 3, mb: 3, ml: 1 }}>
+                <Typography variant="h4" component="div" gutterBottom>
+                    Create a new Campaign
+                </Typography>
+            </Box>
+            <CreateCampaignForm />
+        </div>
     );
 }
 

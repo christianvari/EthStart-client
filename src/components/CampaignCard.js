@@ -1,41 +1,52 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { useGetCampaignSummary } from "../utils/CampaignInterfaces";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
-export default function CampaignCard({ drizzleState, elem }) {
+export default function CampaignCard({ contractAddress }) {
     const history = useHistory();
-    let data;
-    try {
-        const contract = drizzleState.contracts[elem.address];
-        const storeData = contract.getCampaignSummary[elem.key];
-        data = {
-            title: storeData.value[3].split("%%%%%")[0],
-            imageURL: storeData.value[5],
-            subTitle: storeData.value[3].split("%%%%%")[1],
-            isFunded: storeData.value[6],
-        };
-    } catch {
-        return null;
-    }
+    const campaignSummary = useGetCampaignSummary(contractAddress);
 
-    console.log("elem", data);
+    if (!campaignSummary) return null;
+
+    const data = {
+        title: campaignSummary[3].split("%%%%%")[0],
+        imageURL: campaignSummary[5],
+        subTitle: campaignSummary[3].split("%%%%%")[1],
+        isFunded: campaignSummary[6],
+    };
 
     return (
         <Card>
-            <Card.Header>{data.isFunded ? "Funded" : "Funding running"}</Card.Header>
-            <Card.Img variant="top" src={data.imageURL} />
-            <Card.Body>
-                <Card.Title>{data.title}</Card.Title>
-                <Card.Text>{data.subTitle}</Card.Text>
+            <CardMedia
+                component="img"
+                sx={{ height: "15rem" }}
+                image={data.imageURL}
+                alt={data.title}
+            />
+            <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                    {data.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {data.subTitle}
+                </Typography>
+            </CardContent>
+            <CardActions>
                 <Button
-                    variant="primary"
-                    onClick={(e) => {
-                        history.push(`/campaign/${elem.address}`);
+                    size="small"
+                    onClick={() => {
+                        history.push(`/campaign/${contractAddress}`);
                     }}
                 >
                     {data.isFunded ? "Learn more" : "Contribute now"}
                 </Button>
-            </Card.Body>
+            </CardActions>
         </Card>
     );
 }
