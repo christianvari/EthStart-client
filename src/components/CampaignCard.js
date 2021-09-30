@@ -15,10 +15,10 @@ export default function CampaignCard({ contractAddress }) {
     if (!campaignSummary) return null;
 
     const data = {
-        title: campaignSummary[3].split("%%%%%")[0],
-        imageURL: campaignSummary[5],
-        subTitle: campaignSummary[3].split("%%%%%")[1],
-        isFunded: campaignSummary[6],
+        title: campaignSummary[1].split("%%%%%")[0],
+        imageURL: campaignSummary[3],
+        subTitle: campaignSummary[1].split("%%%%%")[1],
+        isFunded: campaignSummary[4],
     };
 
     return (

@@ -18,8 +18,8 @@ const config = {
 
 ReactDOM.render(
     <React.StrictMode>
-        <DAppProvider config={config}>
-            <Router basename="/EthStart-client">
+        <Router basename="/EthStart-client">
+            <DAppProvider config={config}>
                 <Layout>
                     <Switch>
                         <Route exact path="/">
@@ -34,8 +34,8 @@ ReactDOM.render(
                         <Route path="*" />
                     </Switch>
                 </Layout>
-            </Router>
-        </DAppProvider>
+            </DAppProvider>
+        </Router>
     </React.StrictMode>,
     document.getElementById("root"),
 );

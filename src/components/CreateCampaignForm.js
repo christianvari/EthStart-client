@@ -6,35 +6,35 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Grid, InputAdornment } from "@mui/material";
+import { useBlockNumber } from "@usedapp/core";
 
 function CreateCampaignForm() {
     const [formData, setFormData] = useState({
-        title: "",
-        subTitle: "",
-        imageURL: "",
-        description: "",
-        tokenPrice: "",
-        tokenName: "",
-        tokenSymbol: "",
-        tokenMaxSupply: "",
-        fundingDays: "",
+        title: null,
+        subTitle: null,
+        imageURL: null,
+        description: null,
+        tokenName: null,
+        tokenSymbol: null,
+        tokenMaxSupply: null,
+        endBlock: null,
     });
     const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
     const history = useHistory();
     const { state, send } = useCreateCampaign();
+    const blockNumber = useBlockNumber();
 
     const sendTx = () => {
         setLoading(true);
         send(
-            utils.parseEther(formData.tokenPrice),
             `${formData.title}%%%%%${formData.subTitle}`,
             formData.imageURL,
             formData.description,
-            utils.parseEther(formData.tokenMaxSupply),
+            utils.parseUnits(formData.tokenMaxSupply, "ether"),
             formData.tokenName,
             formData.tokenSymbol,
-            parseInt(formData.fundingDays) * 86400,
+            blockNumber + Math.floor((parseInt(formData.endBlock) * 86400) / 13),
         );
         console.log(state);
 
@@ -116,22 +116,6 @@ function CreateCampaignForm() {
                         <TextField
                             required
                             error={validated}
-                            label="Token price"
-                            placeholder="Enter token price"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">Ξ</InputAdornment>
-                                ),
-                            }}
-                            fullWidth
-                            type="number"
-                            onChange={(e) => handleChange(e, "tokenPrice")}
-                        />
-                    </Grid>
-                    <Grid item xs>
-                        <TextField
-                            required
-                            error={validated}
                             label="Token name"
                             placeholder="Enter token name"
                             fullWidth
@@ -152,14 +136,15 @@ function CreateCampaignForm() {
                         <TextField
                             required
                             error={validated}
-                            label="Token max supply"
-                            placeholder="Enter token max supply"
+                            label="Token supply"
+                            placeholder="Enter token supply"
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         {formData.tokenSymbol}
                                     </InputAdornment>
                                 ),
+                                inputProps: { min: 0 },
                             }}
                             fullWidth
                             type="number"
@@ -176,10 +161,11 @@ function CreateCampaignForm() {
                                 endAdornment: (
                                     <InputAdornment position="end">Days</InputAdornment>
                                 ),
+                                inputProps: { min: 0 },
                             }}
                             fullWidth
                             type="number"
-                            onChange={(e) => handleChange(e, "fundingDays")}
+                            onChange={(e) => handleChange(e, "endBlock")}
                         />
                     </Grid>
                 </Grid>

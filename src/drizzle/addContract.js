@@ -1,5 +1,5 @@
 import Campaign from "../contractsABI/Campaign.json";
-import SToken from "../contractsABI/SToken.json";
+import SToken from "../contractsABI/Token.json";
 
 export default (address, drizzle, ABI) => {
     const currentMonitoredContracts = Object.keys(drizzle.contracts);

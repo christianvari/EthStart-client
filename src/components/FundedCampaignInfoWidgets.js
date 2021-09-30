@@ -42,7 +42,7 @@ const FundedCampaignInfoWidgets = ({ drizzle, address, data }) => {
     }
 
     return (
-        <>
+        <div className="FundedCampaing">
             <Row>
                 <Col>
                     <Card border="secondary">
@@ -138,7 +138,7 @@ const FundedCampaignInfoWidgets = ({ drizzle, address, data }) => {
                     </Row>
                 </Col>
             </Row>
-        </>
+        </div>
     );
 };
 

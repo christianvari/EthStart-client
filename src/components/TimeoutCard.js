@@ -1,38 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import { Typography } from "@mui/material";
+import { useBlockNumber } from "@usedapp/core";
 
 const TimeoutCard = React.memo(({ timeout }) => {
-    useEffect(() => {
-        const updateTime = setInterval(() => {
-            setTime((old) => old - 1000);
-        }, 1000);
+    const blockNumber = useBlockNumber();
 
-        return () => clearInterval(updateTime);
-    });
-    const [time, setTime] = useState(timeout * 1000 - Date.now());
     const getTime = () => {
+        const time = (timeout - blockNumber) * 13000;
         const seconds = Math.floor(time / 1000);
         const minutes = Math.floor(seconds / 60);
         const hours = Math.floor(minutes / 60);
         const days = Math.floor(hours / 24);
-        return `${days} : ${hours % 24} : ${minutes % 60} : ${seconds % 60}`;
+        return `${days} : ${hours % 24} : ${minutes % 60}`;
     };
     return (
-        <Card border="secondary">
-            <Card.Header>Funding time left</Card.Header>
-            <Card.Body>
-                <Row>
-                    <Col
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
-                        <h1>{getTime()}</h1>
-                    </Col>
-                </Row>
-            </Card.Body>
+        <Card>
+            <CardContent>
+                <Typography gutterBottom variant="h5">
+                    Funding time left
+                </Typography>
+                <Typography variant="h2" style={{ textAlign: "center" }}>
+                    {getTime()}
+                </Typography>
+            </CardContent>
         </Card>
     );
 });

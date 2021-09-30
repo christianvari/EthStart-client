@@ -1,111 +1,87 @@
 import React from "react";
-import { Badge, Card, Col, Row } from "react-bootstrap";
+import { Badge, Col, Row } from "react-bootstrap";
 import { PieChart } from "react-minimal-pie-chart";
 import BalanceCard from "./BalanceCard";
 import TimeoutCard from "./TimeoutCard";
 import ContributeForm from "./ContributeForm";
-import getData from "../drizzle/getData";
-import isMetamaskInstalled from "../metamask/isMetamaskInstalled";
-import BN from "bn.js";
+import {
+    useGetAllocationBalanceOf,
+    useGetFundingSummary,
+} from "../utils/CampaignInterfaces";
+import { useEthers } from "@usedapp/core";
+import { utils } from "ethers";
+import { Grid, Typography } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 
-const RunningCampaignInfoWidgets = ({ drizzle, address, data }) => {
-    try {
-        const getFundingSummary = getData(drizzle, address, "getFundingSummary");
-        if (isMetamaskInstalled()) {
-            const getBalance = getData(drizzle, address, "allocationBalanceOf");
-            data.balance = drizzle.web3.utils.fromWei(
-                new BN(getBalance.value)
-                    .mul(new BN(drizzle.web3.utils.toWei("1", "ether")))
-                    .div(new BN(data.tokenPrice)),
-                "ether",
-            );
-        }
+const RunningCampaignInfoWidgets = ({ address, data }) => {
+    const { account } = useEthers();
+    const fundingSummary = useGetFundingSummary(address);
 
-        data.tokenMaxSupply = drizzle.web3.utils.fromWei(
-            String(data.tokenMaxSupply),
-            "ether",
-        );
-        data.availableTokens = drizzle.web3.utils.fromWei(
-            String(getFundingSummary.value[0]),
-            "ether",
-        );
-        data.tokenSymbol = getFundingSummary.value[4];
-        data.tokenName = getFundingSummary.value[3];
-        data.timeout = getFundingSummary.value[1];
+    if (!fundingSummary) return null;
 
-        data.pie = [
-            {
-                title: "Allocated Contributors",
-                value:
-                    data.tokenMaxSupply - data.availableTokens - data.tokenMaxSupply / 4,
-                color: "#d9534f",
-            },
-            {
-                title: "Allocated Creator",
-                value: data.tokenMaxSupply / 4,
-                color: "#d9534f",
-            },
-            {
-                title: "Disponible",
-                value: parseInt(data.availableTokens),
-                color: "#5cb85c",
-            },
-        ];
-    } catch {
-        return null;
-    }
+    data.totalDeposit = fundingSummary[0];
+    data.tokenSymbol = fundingSummary[4];
+    data.tokenName = fundingSummary[3];
+    data.timeout = fundingSummary[1];
+
+    data.pie = [
+        {
+            title: "Allocated Contributors",
+            value: data.tokenMaxSupply - data.totalDeposit - data.tokenMaxSupply / 4,
+            color: "#d9534f",
+        },
+        {
+            title: "Allocated Creator",
+            value: data.tokenMaxSupply / 4,
+            color: "#d9534f",
+        },
+        {
+            title: "Disponible",
+            value: parseInt(data.totalDeposit),
+            color: "#5cb85c",
+        },
+    ];
+
+    console.log(data);
 
     return (
-        <>
-            <Row>
-                <Col>
-                    <Card border="secondary">
-                        <Card.Img
-                            variant="top"
-                            src={data.imageURL}
-                            style={{
-                                width: "100%",
-                                height: "40vh",
-                                objectFit: "cover",
-                            }}
+        <div className="RunningCampaing">
+            <Grid container columnSpacing={3}>
+                <Grid item xs={6}>
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            sx={{ height: "15rem" }}
+                            image={data.imageURL}
+                            alt={data.title}
                         />
-                        <Card.Body>
-                            <Card.Title>{data.title}</Card.Title>
-                            <Card.Text>{data.description}</Card.Text>
-                        </Card.Body>
+                        <CardContent>
+                            <Typography gutterBottom variant="h4">
+                                {data.title}
+                            </Typography>
+                            <Typography variant="body2">{data.description}</Typography>
+                        </CardContent>
                     </Card>
-                </Col>
-                <Col>
-                    <Row>
-                        <Col>
-                            <TimeoutCard timeout={data.timeout} />
-                        </Col>
-                    </Row>
-                    <Row style={{ marginTop: "2.5vh" }}>
-                        <Col>
-                            <Card border="secondary">
-                                <Card.Header>Contribute</Card.Header>
-                                <Card.Body>
-                                    <ContributeForm
-                                        drizzle={drizzle}
-                                        address={address}
-                                        data={{
-                                            tokenSymbol: data.tokenSymbol,
-                                            tokenPrice: drizzle.web3.utils.fromWei(
-                                                new BN(data.tokenPrice),
-                                                "ether",
-                                            ),
-                                        }}
-                                    />
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
+                </Grid>
+                <Grid item xs={6}>
+                    <TimeoutCard timeout={data.timeout} />
+                    <Card>
+                        <CardContent>
+                            <ContributeForm
+                                address={address}
+                                symbol={data.tokenSymbol}
+                                price={data.tokenPrice}
+                            />
+                        </CardContent>
+                    </Card>
+
                     <Row style={{ marginTop: "2.5vh" }}>
                         <Col>
                             <Row>
                                 <Col>
-                                    <Card border="secondary">
+                                    {/* <Card border="secondary">
                                         <Card.Header>Token's info</Card.Header>
                                         <Card.Body>
                                             <h4>
@@ -129,8 +105,8 @@ const RunningCampaignInfoWidgets = ({ drizzle, address, data }) => {
                                                     <Col>Price:</Col>
                                                     <Col>
                                                         <Badge variant="secondary">
-                                                            {drizzle.web3.utils.fromWei(
-                                                                new BN(data.tokenPrice),
+                                                            {utils.formatUnits(
+                                                                data.tokenPrice,
                                                                 "ether",
                                                             )}
                                                         </Badge>
@@ -140,7 +116,10 @@ const RunningCampaignInfoWidgets = ({ drizzle, address, data }) => {
                                                     <Col>Max supply:</Col>
                                                     <Col>
                                                         <Badge variant="secondary">
-                                                            {data.tokenMaxSupply}
+                                                            {utils.formatUnits(
+                                                                data.tokenMaxSupply,
+                                                                "ether",
+                                                            )}
                                                         </Badge>
                                                     </Col>
                                                 </Row>
@@ -148,23 +127,23 @@ const RunningCampaignInfoWidgets = ({ drizzle, address, data }) => {
                                                     <Col>Available:</Col>
                                                     <Col>
                                                         <Badge variant="secondary">
-                                                            {data.availableTokens}
+                                                            {utils.formatUnits(
+                                                                data.totalDeposit,
+                                                                "ether",
+                                                            )}
                                                         </Badge>
                                                     </Col>
                                                 </Row>
                                             </h4>
                                         </Card.Body>
-                                    </Card>
+                                    </Card> */}
                                 </Col>
                             </Row>
-                            <Row style={{ marginTop: "2.5vh" }}>
-                                <Col>
-                                    <BalanceCard data={data} />
-                                </Col>
-                            </Row>
+
+                            <BalanceCard contractAddress={address} data={data} />
                         </Col>
                         <Col>
-                            <Card border="secondary">
+                            {/* <Card border="secondary">
                                 <Card.Header>Tokens allocation</Card.Header>
                                 <Card.Body>
                                     <PieChart
@@ -179,12 +158,12 @@ const RunningCampaignInfoWidgets = ({ drizzle, address, data }) => {
                                         labelPosition={70}
                                     />
                                 </Card.Body>
-                            </Card>
+                            </Card> */}
                         </Col>
                     </Row>
-                </Col>
-            </Row>
-        </>
+                </Grid>
+            </Grid>
+        </div>
     );
 };
 

@@ -1,53 +1,45 @@
 import React from "react";
-import { Container } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import Layout from "../components/Layout/Layout";
 import FundedCampaignInfoWidgets from "../components/FundedCampaignInfoWidgets";
-import addContract from "../drizzle/addContract";
-import getData from "../drizzle/getData";
 import RunningCampaignInfoWidgets from "../components/RunningCampaignInfoWidgets";
+import { useGetCampaignSummary } from "../utils/CampaignInterfaces";
+import { utils } from "ethers";
+import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
 
-function CampaignInfoPage({ drizzleContext }) {
-    const { drizzle } = drizzleContext;
+function CampaignInfoPage() {
     const { address } = useParams();
 
-    if (!drizzle.contracts[address]) {
-        addContract(address, drizzle, "Campaign");
-    }
+    const campaignSummary = useGetCampaignSummary(address);
 
-    let getSummaryData = getData(drizzle, address, "getCampaignSummary");
+    if (!campaignSummary) return null;
 
-    let data = {};
-    try {
-        data = {
-            tokenPrice: getSummaryData.value[0],
-            manager: getSummaryData.value[2],
-            title: getSummaryData.value[3].split("%%%%%")[0],
-            imageURL: getSummaryData.value[5],
-            description: getSummaryData.value[4],
-            subTitle: getSummaryData.value[3].split("%%%%%")[1],
-            isFunded: getSummaryData.value[6],
-            tokenMaxSupply: getSummaryData.value[7],
-        };
-    } catch (e) {}
+    const data = {
+        manager: campaignSummary[0],
+        title: campaignSummary[1].split("%%%%%")[0],
+        imageURL: campaignSummary[3],
+        description: campaignSummary[2],
+        subTitle: campaignSummary[1].split("%%%%%")[1],
+        isFunded: campaignSummary[4],
+        tokenMaxSupply: campaignSummary[5],
+    };
+
     return (
-        <Layout title={data.title} desc={data.subTitle}>
-            <Container fluid>
-                {data.isFunded ? (
-                    <FundedCampaignInfoWidgets
-                        drizzle={drizzle}
-                        address={address}
-                        data={data}
-                    />
-                ) : (
-                    <RunningCampaignInfoWidgets
-                        drizzle={drizzle}
-                        address={address}
-                        data={data}
-                    />
-                )}
-            </Container>
-        </Layout>
+        <div>
+            <Box sx={{ mt: 3, mb: 3, ml: 1 }}>
+                <Typography variant="h4" component="div" gutterBottom>
+                    {data.title}
+                </Typography>
+                <Typography variant="h6" component="div" gutterBottom>
+                    {data.subTitle}
+                </Typography>
+            </Box>
+            {data.isFunded ? (
+                <FundedCampaignInfoWidgets address={address} data={data} />
+            ) : (
+                <RunningCampaignInfoWidgets address={address} data={data} />
+            )}
+        </div>
     );
 }
 
