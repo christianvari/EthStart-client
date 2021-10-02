@@ -6,6 +6,7 @@ import CampaignCardsGrid from "../components/CampaignCardsGrid";
 import { useGetDeployedCampaigns } from "../utils/CampaignFactoryInterfaces";
 
 function HomePage() {
+    document.body.style.background = "unset";
     const { chainId } = useEthers();
     const deployedCampaignsAddresses = useGetDeployedCampaigns(chainId);
 

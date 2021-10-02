@@ -8,6 +8,8 @@ import CampaignInfoPage from "./pages/CampaignInfoPage";
 import { ChainId, DAppProvider } from "@usedapp/core";
 import Layout from "./components/Layout/Layout";
 
+import "./index.css";
+
 const config = {
     supportedChains: [ChainId.Ropsten, parseInt(process.env.REACT_APP_NETWORKID_CRONOS)],
     readOnlyChain: ChainId.Ropsten,

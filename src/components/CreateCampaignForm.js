@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Grid, InputAdornment } from "@mui/material";
 import { useEthers } from "@usedapp/core";
+import IPFSFileLoader from "./IPFSFileLoader";
 
 function CreateCampaignForm() {
     const [formData, setFormData] = useState({
@@ -103,13 +104,27 @@ function CreateCampaignForm() {
                     fullWidth
                     onChange={(e) => handleChange(e, "description")}
                 />
-                <TextField
-                    error={validated}
-                    label="Image URL"
-                    placeholder="Enter image URL"
-                    fullWidth
-                    onChange={(e) => handleChange(e, "imageURL")}
-                />
+                <Grid container columnSpacing={1}>
+                    <Grid item xs={10}>
+                        <TextField
+                            error={validated}
+                            label="Image ID"
+                            placeholder="Enter image URL"
+                            fullWidth
+                            disabled
+                            value={formData.imageURL}
+                        />
+                    </Grid>
+                    <Grid item xs>
+                        <IPFSFileLoader
+                            setImageURL={(imageURL) =>
+                                setFormData((old) => {
+                                    return { ...old, imageURL };
+                                })
+                            }
+                        />
+                    </Grid>
+                </Grid>
                 <Grid container columnSpacing={1}>
                     <Grid item xs>
                         <TextField

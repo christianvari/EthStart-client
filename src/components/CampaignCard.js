@@ -7,6 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { getIPFSURL } from "../utils/IPFSUtils";
 
 export default function CampaignCard({ contractAddress }) {
     const history = useHistory();
@@ -16,7 +17,7 @@ export default function CampaignCard({ contractAddress }) {
 
     const data = {
         title: campaignSummary[1].split("%%%%%")[0],
-        imageURL: campaignSummary[3],
+        imageURL: getIPFSURL(campaignSummary[3]),
         subTitle: campaignSummary[1].split("%%%%%")[1],
         isFunded: campaignSummary[4],
     };

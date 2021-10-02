@@ -4,6 +4,7 @@ import React from "react";
 import CreateCampaignForm from "../components/CreateCampaignForm";
 
 function NewCampaign() {
+    document.body.style.background = "unset";
     return (
         <div>
             <Box sx={{ mt: 3, mb: 3, ml: 1 }}>
