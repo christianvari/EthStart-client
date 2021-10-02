@@ -5,29 +5,16 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NewCampaign from "./pages/NewCampaign";
 import CampaignInfoPage from "./pages/CampaignInfoPage";
-import { ChainId, DAppProvider } from "@usedapp/core";
+import { DAppProvider } from "@usedapp/core";
 import Layout from "./components/Layout/Layout";
+import DappConf from "./utils/DappConf";
 
 import "./index.css";
-
-const config = {
-    supportedChains: [ChainId.Ropsten, parseInt(process.env.REACT_APP_NETWORKID_CRONOS)],
-    readOnlyChain: ChainId.Ropsten,
-    readOnlyUrls: {
-        [ChainId.Ropsten]: process.env.REACT_APP_RPC_ROPSTEN,
-        [parseInt(process.env.REACT_APP_NETWORKID_CRONOS)]:
-            process.env.REACT_APP_RPC_CRONOS,
-    },
-    multicallAddresses: {
-        [parseInt(process.env.REACT_APP_NETWORKID_CRONOS)]:
-            process.env.REACT_APP_MULTICALL_CRONOS,
-    },
-};
 
 ReactDOM.render(
     <React.StrictMode>
         <Router basename="/EthStart-client">
-            <DAppProvider config={config}>
+            <DAppProvider config={DappConf}>
                 <Layout>
                     <Switch>
                         <Route exact path="/">

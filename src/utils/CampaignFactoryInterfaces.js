@@ -4,6 +4,7 @@ import { utils } from "ethers";
 import CampaignFactory from "../contractsABI/CampaignFactory.json";
 import { Contract } from "@ethersproject/contracts";
 import { ChainId } from "@usedapp/core";
+import DappConf from "./DappConf";
 
 const campaignFactoryAddresses = {
     [ChainId.Ropsten]: process.env.REACT_APP_CAMPAIGNFACTORY_ADDRESS_ROPSTEN,
@@ -26,7 +27,10 @@ export function useGetDeployedCampaigns(chainId) {
 
 export function useCreateCampaign(chainId) {
     return useContractFunction(
-        new Contract(campaignFactoryAddresses[chainId], CampaignFactory.abi),
+        new Contract(
+            campaignFactoryAddresses[chainId ? chainId : DappConf.readOnlyChain],
+            CampaignFactory.abi,
+        ),
         "createCampaign",
     );
 }

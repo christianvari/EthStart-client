@@ -69,7 +69,6 @@ function CreateCampaignForm() {
             <Box
                 sx={{
                     "& .MuiTextField-root": { mb: 1 },
-                    "& .MuiButton-root": { mt: 2 },
                 }}
                 component="form"
                 noValidate
@@ -198,6 +197,7 @@ function CreateCampaignForm() {
                     variant="contained"
                     type="submit"
                     loading={state.status === "Mining"}
+                    sx={{ mt: 2 }}
                 >
                     Submit
                 </LoadingButton>
