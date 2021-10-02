@@ -12,6 +12,7 @@ import { utils } from "ethers";
 import { Grid, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import { Box } from "@mui/system";
 
 const RunningCampaignInfoWidgets = ({ address, data }) => {
     const { account } = useEthers();
@@ -54,23 +55,25 @@ const RunningCampaignInfoWidgets = ({ address, data }) => {
                         alt={data.title}
                         style={{
                             width: "100%",
-                            maxHeight: "20rem",
+                            maxHeight: "25rem",
                             objectFit: "cover",
                         }}
                     />
 
-                    <Typography gutterBottom variant="h4">
-                        {data.title}
-                    </Typography>
-                    <Typography gutterBottom variant="h5">
-                        {data.subTitle}
-                    </Typography>
-                    <Typography variant="subtitle1">
-                        {`Total supply: ${utils.formatEther(data.tokenMaxSupply)} ${
-                            data.tokenSymbol
-                        }`}
-                    </Typography>
-                    <Typography variant="body1">{data.description}</Typography>
+                    <Box sx={{ color: "white" }}>
+                        <Typography gutterBottom variant="h4">
+                            {data.title}
+                        </Typography>
+                        <Typography gutterBottom variant="h5">
+                            {data.subTitle}
+                        </Typography>
+                        <Typography gutterBottom variant="subtitle1">
+                            {`Total supply: ${utils.formatEther(data.tokenMaxSupply)} ${
+                                data.tokenSymbol
+                            }`}
+                        </Typography>
+                        <Typography variant="body1">{data.description}</Typography>
+                    </Box>
                 </Grid>
                 <Grid item xs={6}>
                     <TimeoutCard timeout={data.timeout} />

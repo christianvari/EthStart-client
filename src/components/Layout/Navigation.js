@@ -19,7 +19,7 @@ const Navigation = () => {
     return (
         <div className="Navigation">
             <SideDrawer isDrawerOpen={isDrawerOpen} setDrawerOpen={setDrawerOpen} />
-            <AppBar position="static">
+            <AppBar position="static" sx={{ bgcolor: "rgba(0,0,0,.25)" }}>
                 <Toolbar>
                     <IconButton
                         size="large"

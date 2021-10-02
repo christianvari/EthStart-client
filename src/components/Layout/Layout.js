@@ -5,11 +5,11 @@ import { Box } from "@mui/system";
 
 const Layout = ({ children }) => {
     return (
-        <div className="Layout">
+        <Box className="Layout">
             <Navigation />
             <Box sx={{ m: 3 }}>{children}</Box>
             <Footer />
-        </div>
+        </Box>
     );
 };
 

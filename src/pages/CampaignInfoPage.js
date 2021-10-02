@@ -25,14 +25,14 @@ function CampaignInfoPage() {
     };
 
     if (data?.imageURL && !isGradientSet.current) {
-        prominent(data.imageURL, { amount: 2 }).then((color) => {
-            document.body.style.background = `linear-gradient(0deg, rgba(${color[0][0]},${color[0][1]},${color[0][2]},1) 0%, rgba(${color[1][0]},${color[1][1]},${color[1][2]},1) 100%)`;
+        prominent(data.imageURL, { amount: 3, format: "hex" }).then((color) => {
+            document.body.style.background = `radial-gradient(circle, ${color[0]} 0%, ${color[1]} 50%,${color[2]} 100%)`;
             isGradientSet.current = true;
         });
     }
 
     return (
-        <Box>
+        <Box sx={{ bgcolor: "rgba(0,0,0,.25)", p: 3, borderRadius: 1, boxShadow: 5 }}>
             {data.isFunded ? (
                 <FundedCampaignInfoWidgets address={address} data={data} />
             ) : (
