@@ -13,6 +13,7 @@ const campaignFactoryAddresses = {
 };
 
 export function useGetDeployedCampaigns(chainId) {
+    chainId = chainId ? chainId : DappConf.readOnlyChain;
     const res = useContractCall({
         abi: new utils.Interface(CampaingFactory.abi),
         address: campaignFactoryAddresses[chainId],
@@ -26,16 +27,15 @@ export function useGetDeployedCampaigns(chainId) {
 }
 
 export function useCreateCampaign(chainId) {
+    chainId = chainId ? chainId : DappConf.readOnlyChain;
     return useContractFunction(
-        new Contract(
-            campaignFactoryAddresses[chainId ? chainId : DappConf.readOnlyChain],
-            CampaignFactory.abi,
-        ),
+        new Contract(campaignFactoryAddresses[chainId], CampaignFactory.abi),
         "createCampaign",
     );
 }
 
 export function useGetDeployedCampaign(index, chainId) {
+    chainId = chainId ? chainId : DappConf.readOnlyChain;
     const res = useContractCall({
         abi: new utils.Interface(CampaingFactory.abi),
         address: campaignFactoryAddresses[chainId],

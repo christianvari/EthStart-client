@@ -14,7 +14,9 @@ const Navigation = () => {
     const { activateBrowserWallet, account, deactivate, error } = useEthers();
     const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-    console.error(error);
+    if (error) {
+        console.error("ERROR", error);
+    }
 
     return (
         <div className="Navigation">
