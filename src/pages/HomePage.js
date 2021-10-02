@@ -19,7 +19,11 @@ function HomePage() {
                     Deployed Campaigns
                 </Typography>
             </Box>
-            <CampaignCardsGrid deployedCampaignsAddresses={deployedCampaignsAddresses} />
+            <Box sx={{ m: 3 }}>
+                <CampaignCardsGrid
+                    deployedCampaignsAddresses={deployedCampaignsAddresses}
+                />
+            </Box>
         </div>
     );
 }

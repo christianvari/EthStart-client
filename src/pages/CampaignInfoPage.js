@@ -32,7 +32,14 @@ function CampaignInfoPage() {
     }
 
     return (
-        <Box sx={{ bgcolor: "rgba(0,0,0,.25)", p: 3, borderRadius: 1, boxShadow: 5 }}>
+        <Box
+            sx={{
+                bgcolor: "rgba(0,0,0,.25)",
+                p: 3,
+                borderRadius: 1,
+                boxShadow: 5,
+            }}
+        >
             {data.isFunded ? (
                 <FundedCampaignInfoWidgets address={address} data={data} />
             ) : (

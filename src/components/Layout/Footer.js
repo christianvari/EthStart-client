@@ -1,5 +1,7 @@
+import { Box } from "@mui/system";
+
 const Footer = () => {
-    return null;
+    return <Box></Box>;
 };
 
 export default Footer;

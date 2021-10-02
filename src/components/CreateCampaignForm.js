@@ -8,13 +8,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Grid, InputAdornment } from "@mui/material";
 import { useEthers } from "@usedapp/core";
 import IPFSFileLoader from "./IPFSFileLoader";
+import MDEditor from "@uiw/react-md-editor";
 
 function CreateCampaignForm() {
     const [formData, setFormData] = useState({
         title: null,
         subTitle: null,
         imageURL: null,
-        description: null,
+        description: "Description",
         tokenName: null,
         tokenSymbol: null,
         tokenMaxSupply: null,
@@ -93,7 +94,17 @@ function CreateCampaignForm() {
                     fullWidth
                     onChange={(e) => handleChange(e, "subTitle")}
                 />
-                <TextField
+                <Box sx={{ mb: 1 }}>
+                    <MDEditor
+                        value={formData.description}
+                        onChange={(description) =>
+                            setFormData((old) => {
+                                return { ...old, description };
+                            })
+                        }
+                    />
+                </Box>
+                {/* <TextField
                     required
                     error={validated}
                     label="Description"
@@ -103,7 +114,7 @@ function CreateCampaignForm() {
                     minRows={2}
                     fullWidth
                     onChange={(e) => handleChange(e, "description")}
-                />
+                /> */}
                 <Grid container columnSpacing={1}>
                     <Grid item xs={10}>
                         <TextField

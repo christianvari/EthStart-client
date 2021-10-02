@@ -12,15 +12,8 @@ export default function CampaignCardsGrid({ deployedCampaignsAddresses }) {
     };
 
     return (
-        <div style={{ margin: "3rem" }}>
-            <Grid
-                container
-                rowSpacing={5}
-                columnSpacing={5}
-                justifyContent="space-evenly"
-            >
-                {getCards()}
-            </Grid>
-        </div>
+        <Grid container rowSpacing={5} columnSpacing={5} justifyContent="space-evenly">
+            {getCards()}
+        </Grid>
     );
 }

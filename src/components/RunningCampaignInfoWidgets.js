@@ -13,6 +13,7 @@ import { Grid, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Box } from "@mui/system";
+import ReactMarkdown from "react-markdown";
 
 const RunningCampaignInfoWidgets = ({ address, data }) => {
     const { account } = useEthers();
@@ -59,12 +60,11 @@ const RunningCampaignInfoWidgets = ({ address, data }) => {
                             objectFit: "cover",
                         }}
                     />
-
                     <Box sx={{ color: "white" }}>
-                        <Typography gutterBottom variant="h4">
+                        <Typography gutterBottom variant="h3">
                             {data.title}
                         </Typography>
-                        <Typography gutterBottom variant="h5">
+                        <Typography gutterBottom variant="h4">
                             {data.subTitle}
                         </Typography>
                         <Typography gutterBottom variant="subtitle1">
@@ -72,7 +72,12 @@ const RunningCampaignInfoWidgets = ({ address, data }) => {
                                 data.tokenSymbol
                             }`}
                         </Typography>
-                        <Typography variant="body1">{data.description}</Typography>
+                        <Typography gutterBottom variant="h5">
+                            Description
+                        </Typography>
+                        <Typography>
+                            <ReactMarkdown>{data.description}</ReactMarkdown>
+                        </Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
