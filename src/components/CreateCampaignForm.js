@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Grid, InputAdornment } from "@mui/material";
-import { useBlockNumber, useEthers } from "@usedapp/core";
+import { useEthers } from "@usedapp/core";
 
 function CreateCampaignForm() {
     const [formData, setFormData] = useState({
@@ -21,11 +21,10 @@ function CreateCampaignForm() {
     });
     const [validated, setValidated] = useState(false);
     const history = useHistory();
-    const { chainId } = useEthers();
+    const { chainId, library } = useEthers();
     const { state, send } = useCreateCampaign(chainId);
-    const blockNumber = useBlockNumber();
 
-    const sendTx = () => {
+    const sendTx = async () => {
         send(
             `${formData.title}%%%%%${formData.subTitle}`,
             formData.imageURL,
@@ -33,9 +32,9 @@ function CreateCampaignForm() {
             utils.parseUnits(formData.tokenMaxSupply, "ether"),
             formData.tokenName,
             formData.tokenSymbol,
-            blockNumber + Math.floor((parseInt(formData.endBlock) * 86400) / 13),
+            (await library.getBlockNumber()) +
+                Math.floor((parseInt(formData.endBlock) * 86400) / 13),
         );
-        console.log(state);
     };
 
     const handleChange = (event, field) => {
