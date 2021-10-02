@@ -21,8 +21,10 @@ import MailIcon from "@mui/icons-material/Mail";
 
 const Navigation = () => {
     const history = useHistory();
-    const { activateBrowserWallet, account, deactivate } = useEthers();
+    const { activateBrowserWallet, account, deactivate, error } = useEthers();
     const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+    console.error(error);
 
     return (
         <div className="Navigation">

@@ -9,10 +9,16 @@ import { ChainId, DAppProvider } from "@usedapp/core";
 import Layout from "./components/Layout/Layout";
 
 const config = {
+    supportedChains: [ChainId.Ropsten, parseInt(process.env.REACT_APP_NETWORKID_CRONOS)],
     readOnlyChain: ChainId.Ropsten,
     readOnlyUrls: {
-        [ChainId.Ropsten]:
-            "https://ropsten.infura.io/v3/f162b78798ce41eb93bc46a3ead69794",
+        [ChainId.Ropsten]: process.env.REACT_APP_RPC_ROPSTEN,
+        [parseInt(process.env.REACT_APP_NETWORKID_CRONOS)]:
+            process.env.REACT_APP_RPC_CRONOS,
+    },
+    multicallAddresses: {
+        [parseInt(process.env.REACT_APP_NETWORKID_CRONOS)]:
+            process.env.REACT_APP_MULTICALL_CRONOS,
     },
 };
 

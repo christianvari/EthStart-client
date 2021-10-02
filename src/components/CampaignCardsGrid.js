@@ -17,7 +17,7 @@ export default function CampaignCardsGrid({ deployedCampaignsAddresses }) {
                 container
                 rowSpacing={5}
                 columnSpacing={5}
-                justifyContent="space-between"
+                justifyContent="space-evenly"
             >
                 {getCards()}
             </Grid>

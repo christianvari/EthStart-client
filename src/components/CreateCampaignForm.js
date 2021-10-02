@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Grid, InputAdornment } from "@mui/material";
-import { useBlockNumber } from "@usedapp/core";
+import { useBlockNumber, useEthers } from "@usedapp/core";
 
 function CreateCampaignForm() {
     const [formData, setFormData] = useState({
@@ -20,13 +20,12 @@ function CreateCampaignForm() {
         endBlock: null,
     });
     const [validated, setValidated] = useState(false);
-    const [loading, setLoading] = useState(false);
     const history = useHistory();
-    const { state, send } = useCreateCampaign();
+    const { chainId } = useEthers();
+    const { state, send } = useCreateCampaign(chainId);
     const blockNumber = useBlockNumber();
 
     const sendTx = () => {
-        setLoading(true);
         send(
             `${formData.title}%%%%%${formData.subTitle}`,
             formData.imageURL,
@@ -37,9 +36,6 @@ function CreateCampaignForm() {
             blockNumber + Math.floor((parseInt(formData.endBlock) * 86400) / 13),
         );
         console.log(state);
-
-        setLoading(false);
-        history.push("/");
     };
 
     const handleChange = (event, field) => {
@@ -62,6 +58,10 @@ function CreateCampaignForm() {
         setValidated(false);
         sendTx();
     };
+
+    if (state.status === "Success") {
+        history.push("/");
+    }
 
     return (
         <div style={{ margin: "1rem" }}>
@@ -169,7 +169,11 @@ function CreateCampaignForm() {
                         />
                     </Grid>
                 </Grid>
-                <LoadingButton variant="contained" type="submit" loading={loading}>
+                <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    loading={state.status === "Mining"}
+                >
                     Submit
                 </LoadingButton>
             </Box>

@@ -1,11 +1,13 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useEthers } from "@usedapp/core";
 import React from "react";
 import CampaignCardsGrid from "../components/CampaignCardsGrid";
 import { useGetDeployedCampaigns } from "../utils/CampaignFactoryInterfaces";
 
 function HomePage() {
-    const deployedCampaignsAddresses = useGetDeployedCampaigns();
+    const { chainId } = useEthers();
+    const deployedCampaignsAddresses = useGetDeployedCampaigns(chainId);
 
     if (!deployedCampaignsAddresses) return null;
 

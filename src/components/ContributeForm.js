@@ -10,12 +10,9 @@ const ContributeForm = ({ address }) => {
 
     const [value, setValue] = useState({ eth: "" });
     const [validated, setValidated] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const sendTx = async () => {
-        setLoading(true);
         send({ value: utils.parseEther(value.eth) });
-        setLoading(false);
     };
 
     const onSubmit = (e) => {
@@ -62,7 +59,11 @@ const ContributeForm = ({ address }) => {
                     }}
                 />
 
-                <LoadingButton variant="contained" type="submit" loading={loading}>
+                <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    loading={state.status === "Mining"}
+                >
                     Submit
                 </LoadingButton>
             </Box>
