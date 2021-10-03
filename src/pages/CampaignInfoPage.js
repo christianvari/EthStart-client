@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
-import FundedCampaignInfoWidgets from "../components/FundedCampaignInfoWidgets";
 import RunningCampaignInfoWidgets from "../components/RunningCampaignInfoWidgets";
 import { useGetCampaignSummary } from "../utils/CampaignInterfaces";
 import { Box } from "@mui/system";
@@ -34,14 +33,15 @@ function CampaignInfoPage() {
     return (
         <Box
             sx={{
-                bgcolor: "rgba(0,0,0,.25)",
+                bgcolor: "rgba(0,0,0,.3)",
                 p: 3,
                 borderRadius: 1,
                 boxShadow: 5,
             }}
         >
             {data.isFunded ? (
-                <FundedCampaignInfoWidgets address={address} data={data} />
+                // <FundedCampaignInfoWidgets address={address} data={data} />
+                <div></div>
             ) : (
                 <RunningCampaignInfoWidgets address={address} data={data} />
             )}

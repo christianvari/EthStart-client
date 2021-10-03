@@ -1,4 +1,4 @@
-export default async (tokenAddress, tokenSymbol, imageURL, decimals = 18) => {
+const addTokenToMetamask = async (tokenAddress, tokenSymbol, imageURL, decimals = 18) => {
     await window.ethereum.request({
         method: "wallet_watchAsset",
         params: {
@@ -12,3 +12,5 @@ export default async (tokenAddress, tokenSymbol, imageURL, decimals = 18) => {
         },
     });
 };
+
+export default addTokenToMetamask;

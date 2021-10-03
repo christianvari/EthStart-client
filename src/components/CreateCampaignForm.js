@@ -5,7 +5,7 @@ import { useCreateCampaign } from "../utils/CampaignFactoryInterfaces";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Grid, InputAdornment } from "@mui/material";
+import { Grid, InputAdornment, Typography } from "@mui/material";
 import { useEthers } from "@usedapp/core";
 import IPFSFileLoader from "./IPFSFileLoader";
 import MDEditor from "@uiw/react-md-editor";
@@ -15,7 +15,7 @@ function CreateCampaignForm() {
         title: null,
         subTitle: null,
         imageURL: null,
-        description: "Description",
+        description: "",
         tokenName: null,
         tokenSymbol: null,
         tokenMaxSupply: null,
@@ -65,144 +65,147 @@ function CreateCampaignForm() {
     }
 
     return (
-        <div style={{ margin: "1rem" }}>
-            <Box
-                sx={{
-                    "& .MuiTextField-root": { mb: 1 },
-                }}
-                component="form"
-                noValidate
-                onSubmit={onSubmit}
-                autoComplete="off"
-            >
-                <TextField
-                    required
-                    error={validated}
-                    id="outlined-required"
-                    label="Title"
-                    placeholder="Enter title"
-                    fullWidth
-                    onChange={(e) => handleChange(e, "title")}
+        <Box
+            sx={{
+                p: 1,
+                "& .MuiTextField-root": {
+                    mb: 1,
+                    "& .MuiFilledInput-root": {
+                        color: "white",
+                        "&.Mui-focused": {},
+                    },
+                },
+                "& .MuiInputLabel-root": {
+                    color: "white",
+                },
+            }}
+            component="form"
+            noValidate
+            onSubmit={onSubmit}
+            autoComplete="off"
+        >
+            <TextField
+                required
+                error={validated}
+                label="Title"
+                placeholder="Enter title"
+                fullWidth
+                onChange={(e) => handleChange(e, "title")}
+                variant="filled"
+            />
+            <TextField
+                required
+                error={validated}
+                label="Subtitle"
+                placeholder="Enter subtitle"
+                fullWidth
+                onChange={(e) => handleChange(e, "subTitle")}
+                variant="filled"
+            />
+            <Box sx={{ mb: 1, backgroundColor: "rgba(0,0,0,.1)" }}>
+                <Typography sx={{ pl: 1, pt: 1.5, pb: 1 }}>Description *</Typography>
+                <MDEditor
+                    value={formData.description}
+                    onChange={(description) =>
+                        setFormData((old) => {
+                            return { ...old, description };
+                        })
+                    }
                 />
-                <TextField
-                    required
-                    error={validated}
-                    id="outlined-required"
-                    label="Subtitle"
-                    placeholder="Enter subtitle"
-                    fullWidth
-                    onChange={(e) => handleChange(e, "subTitle")}
-                />
-                <Box sx={{ mb: 1 }}>
-                    <MDEditor
-                        value={formData.description}
-                        onChange={(description) =>
+            </Box>
+            <Grid container columnSpacing={1}>
+                <Grid item xs={10}>
+                    <TextField
+                        error={validated}
+                        label="Image ID"
+                        placeholder="Enter image URL"
+                        fullWidth
+                        disabled
+                        value={formData.imageURL}
+                        variant="filled"
+                    />
+                </Grid>
+                <Grid item xs style={{ alignSelf: "center", width: "100%" }}>
+                    <IPFSFileLoader
+                        setImageURL={(imageURL) =>
                             setFormData((old) => {
-                                return { ...old, description };
+                                return { ...old, imageURL };
                             })
                         }
                     />
-                </Box>
-                {/* <TextField
-                    required
-                    error={validated}
-                    label="Description"
-                    placeholder="Enter description"
-                    multiline
-                    maxRows={4}
-                    minRows={2}
-                    fullWidth
-                    onChange={(e) => handleChange(e, "description")}
-                /> */}
-                <Grid container columnSpacing={1}>
-                    <Grid item xs={10}>
-                        <TextField
-                            error={validated}
-                            label="Image ID"
-                            placeholder="Enter image URL"
-                            fullWidth
-                            disabled
-                            value={formData.imageURL}
-                        />
-                    </Grid>
-                    <Grid item xs>
-                        <IPFSFileLoader
-                            setImageURL={(imageURL) =>
-                                setFormData((old) => {
-                                    return { ...old, imageURL };
-                                })
-                            }
-                        />
-                    </Grid>
                 </Grid>
-                <Grid container columnSpacing={1}>
-                    <Grid item xs>
-                        <TextField
-                            required
-                            error={validated}
-                            label="Token name"
-                            placeholder="Enter token name"
-                            fullWidth
-                            onChange={(e) => handleChange(e, "tokenName")}
-                        />
-                    </Grid>
-                    <Grid item xs>
-                        <TextField
-                            required
-                            error={validated}
-                            label="Token ticker"
-                            placeholder="Enter token ticker"
-                            fullWidth
-                            onChange={(e) => handleChange(e, "tokenSymbol")}
-                        />
-                    </Grid>
-                    <Grid item xs>
-                        <TextField
-                            required
-                            error={validated}
-                            label="Token supply"
-                            placeholder="Enter token supply"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        {formData.tokenSymbol}
-                                    </InputAdornment>
-                                ),
-                                inputProps: { min: 0 },
-                            }}
-                            fullWidth
-                            type="number"
-                            onChange={(e) => handleChange(e, "tokenMaxSupply")}
-                        />
-                    </Grid>
-                    <Grid item xs>
-                        <TextField
-                            required
-                            error={validated}
-                            label="Funding days"
-                            placeholder="Enter funding days"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">Days</InputAdornment>
-                                ),
-                                inputProps: { min: 0 },
-                            }}
-                            fullWidth
-                            type="number"
-                            onChange={(e) => handleChange(e, "endBlock")}
-                        />
-                    </Grid>
+            </Grid>
+            <Grid container columnSpacing={1}>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Token name"
+                        placeholder="Enter token name"
+                        fullWidth
+                        onChange={(e) => handleChange(e, "tokenName")}
+                        variant="filled"
+                    />
                 </Grid>
-                <LoadingButton
-                    variant="contained"
-                    type="submit"
-                    loading={state.status === "Mining"}
-                    sx={{ mt: 2 }}
-                >
-                    Submit
-                </LoadingButton>
-            </Box>
-        </div>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Token ticker"
+                        placeholder="Enter token ticker"
+                        fullWidth
+                        onChange={(e) => handleChange(e, "tokenSymbol")}
+                        variant="filled"
+                    />
+                </Grid>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Token supply"
+                        placeholder="Enter token supply"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    {formData.tokenSymbol}
+                                </InputAdornment>
+                            ),
+                            inputProps: { min: 0 },
+                        }}
+                        fullWidth
+                        type="number"
+                        onChange={(e) => handleChange(e, "tokenMaxSupply")}
+                        variant="filled"
+                    />
+                </Grid>
+                <Grid item xs>
+                    <TextField
+                        required
+                        error={validated}
+                        label="Funding days"
+                        placeholder="Enter funding days"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">Days</InputAdornment>
+                            ),
+                            inputProps: { min: 0 },
+                        }}
+                        fullWidth
+                        type="number"
+                        onChange={(e) => handleChange(e, "endBlock")}
+                        variant="filled"
+                    />
+                </Grid>
+            </Grid>
+            <LoadingButton
+                variant="contained"
+                type="submit"
+                loading={state.status === "Mining"}
+                sx={{ mt: 2 }}
+            >
+                Submit
+            </LoadingButton>
+        </Box>
     );
 }
 

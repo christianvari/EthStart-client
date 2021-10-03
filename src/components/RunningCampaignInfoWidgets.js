@@ -3,11 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import BalanceCard from "./BalanceCard";
 import TimeoutCard from "./TimeoutCard";
 import ContributeForm from "./ContributeForm";
-import {
-    useGetAllocationBalanceOf,
-    useGetFundingSummary,
-} from "../utils/CampaignInterfaces";
-import { useEthers } from "@usedapp/core";
+import { useGetFundingSummary } from "../utils/CampaignInterfaces";
 import { utils } from "ethers";
 import { Grid, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -16,7 +12,6 @@ import { Box } from "@mui/system";
 import ReactMarkdown from "react-markdown";
 
 const RunningCampaignInfoWidgets = ({ address, data }) => {
-    const { account } = useEthers();
     const fundingSummary = useGetFundingSummary(address);
 
     if (!fundingSummary) return null;

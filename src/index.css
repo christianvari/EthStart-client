@@ -4,6 +4,18 @@ html {
 body {
     height: 100%;
     margin: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+.w-md-editor {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.w-md-editor-input {
+    background-color: white;
+    border-radius: 0;
+}
+
+.wmde-markdown-color {
+    color: #fff;
 }
