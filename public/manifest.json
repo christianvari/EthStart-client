@@ -1,6 +1,6 @@
 {
-    "short_name": "EtherStart",
-    "name": "EtherStart, an ethereum DAPP",
+    "short_name": "CryptoStarter",
+    "name": "CryptoStarter, a decentralized funding app",
     "icons": [
         {
             "src": "favicon.ico",
