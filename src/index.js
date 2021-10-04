@@ -13,7 +13,7 @@ import "./index.css";
 
 ReactDOM.render(
     <React.StrictMode>
-        <Router basename="/EthStart-client">
+        <Router>
             <DAppProvider config={DappConf}>
                 <Layout>
                     <Switch>

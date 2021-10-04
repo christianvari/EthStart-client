@@ -2,7 +2,6 @@
     "name": "ethstart-client",
     "version": "0.1.0",
     "private": true,
-    "homepage": "/EthStart-client",
     "dependencies": {
         "@drizzle/react-plugin": "^1.5.3",
         "@drizzle/store": "^1.5.3",
