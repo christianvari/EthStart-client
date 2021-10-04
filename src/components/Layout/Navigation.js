@@ -55,11 +55,13 @@ const Navigation = () => {
                             Connect wallet
                         </Button>
                     )}
+
                     <Button
                         color="inherit"
                         onClick={() => {
                             history.push("/new");
                         }}
+                        disabled={!account}
                     >
                         New Campaign
                     </Button>

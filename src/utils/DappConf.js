@@ -2,7 +2,7 @@ import { ChainId } from "@usedapp/core";
 
 const config = {
     supportedChains: [ChainId.Ropsten, parseInt(process.env.REACT_APP_NETWORKID_CRONOS)],
-    readOnlyChain: ChainId.Ropsten,
+    readOnlyChainId: ChainId.Ropsten,
     readOnlyUrls: {
         [ChainId.Ropsten]: process.env.REACT_APP_RPC_ROPSTEN,
         [parseInt(process.env.REACT_APP_NETWORKID_CRONOS)]:
