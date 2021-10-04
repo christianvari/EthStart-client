@@ -24,10 +24,12 @@ function CampaignInfoPage() {
     };
 
     if (data?.imageURL && !isGradientSet.current) {
-        prominent(data.imageURL, { amount: 3, format: "hex" }).then((color) => {
-            document.body.style.background = `radial-gradient(circle, ${color[0]} 0%, ${color[1]} 50%,${color[2]} 100%)`;
-            isGradientSet.current = true;
-        });
+        prominent(data.imageURL, { amount: 3, format: "hex", group: 40 }).then(
+            (color) => {
+                document.body.style.background = `radial-gradient(circle, ${color[0]} 0%, ${color[1]} 50%,${color[2]} 100%)`;
+                isGradientSet.current = true;
+            },
+        );
     }
 
     return (
