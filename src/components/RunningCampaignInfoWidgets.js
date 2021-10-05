@@ -24,7 +24,7 @@ const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
     return (
         <div className="RunningCampaing">
             <Grid container columnSpacing={3}>
-                <Grid item xs={12} xl={6}>
+                <Grid item xs={12} md={6}>
                     <img
                         id="gradient-generator"
                         src={imageUrl}
@@ -50,7 +50,7 @@ const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid item xs={12} xl={6}>
+                <Grid item xs={12} md={6}>
                     <TimeoutCard timeout={endBlock} />
                     <Card>
                         <CardContent>

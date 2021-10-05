@@ -10,7 +10,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const getCards = (addresses) => {
     return addresses.map((elem, id) => (
-        <Grid item xl={4} xs={12} key={id}>
+        <Grid item md={4} xs={12} key={id}>
             <CampaignCard contractAddress={elem} />
         </Grid>
     ));
