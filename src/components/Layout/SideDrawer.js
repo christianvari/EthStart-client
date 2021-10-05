@@ -37,7 +37,18 @@ const SideDrawer = ({ isDrawerOpen, setDrawerOpen }) => {
                         {/* <ListItemIcon>
                                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                     </ListItemIcon> */}
-                        <ListItemText primary="Home" />
+                        <ListItemText primary="Running campaigns" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            history.push("/closed");
+                        }}
+                    >
+                        {/* <ListItemIcon>
+                                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    </ListItemIcon> */}
+                        <ListItemText primary="Closed campaigns" />
                     </ListItem>
                     <ListItem
                         button

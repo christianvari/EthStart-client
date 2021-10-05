@@ -10,6 +10,7 @@ import Layout from "./components/Layout/Layout";
 import DappConf from "./utils/DappConf";
 
 import "./index.css";
+import ClosedCampaigns from "./pages/ClosedCampaigns";
 
 ReactDOM.render(
     <React.StrictMode>
@@ -19,6 +20,9 @@ ReactDOM.render(
                     <Switch>
                         <Route exact path="/">
                             <HomePage />
+                        </Route>
+                        <Route exact path="/closed">
+                            <ClosedCampaigns />
                         </Route>
                         <Route path="/campaign/:address">
                             <CampaignInfoPage />

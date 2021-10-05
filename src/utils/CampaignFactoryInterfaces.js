@@ -1,10 +1,10 @@
 import { useContractCall, useContractFunction } from "@usedapp/core";
-import CampaingFactory from "../contractsABI/CampaignFactory.json";
 import { utils } from "ethers";
 import CampaignFactory from "../contractsABI/CampaignFactory.json";
 import { Contract } from "@ethersproject/contracts";
 import { ChainId } from "@usedapp/core";
 import DappConf from "./DappConf";
+import { useRef } from "react";
 
 const campaignFactoryAddresses = {
     [ChainId.Ropsten]: process.env.REACT_APP_CAMPAIGNFACTORY_ADDRESS_ROPSTEN,
@@ -12,36 +12,32 @@ const campaignFactoryAddresses = {
         process.env.REACT_APP_CAMPAIGNFACTORY_ADDRESS_CRONOS,
 };
 
-export function useGetDeployedCampaigns(chainId) {
+const ABI = new utils.Interface(CampaignFactory.abi);
+
+export function useGetCampaigns(chainId, cursor, howMany, isRunning) {
+    const state = useRef({ list: [], prevCursor: null });
     chainId = chainId ? chainId : DappConf.readOnlyChain;
     const res = useContractCall({
-        abi: new utils.Interface(CampaingFactory.abi),
+        abi: ABI,
         address: campaignFactoryAddresses[chainId],
-        method: "getDeployedCampaigns",
-        args: [],
+        method: "getCampaigns",
+        args: [cursor, howMany, isRunning],
     });
-    console.log("getDeployedCampaigns", res, chainId);
-    if (!res) return null;
-    const [getDeployedCampaigns] = res;
-    return getDeployedCampaigns;
+    if (res && state.current.prevCursor !== cursor) {
+        state.current.list = [...state.current.list, ...res[0]];
+        state.current.prevCursor = cursor;
+    }
+    console.info("getCampaigns", res, cursor, howMany);
+    return {
+        campaigns: state.current.list,
+        length: res ? res[1].toNumber() : state.current.list.length,
+    };
 }
 
 export function useCreateCampaign(chainId) {
     chainId = chainId ? chainId : DappConf.readOnlyChain;
     return useContractFunction(
-        new Contract(campaignFactoryAddresses[chainId], CampaignFactory.abi),
+        new Contract(campaignFactoryAddresses[chainId], ABI),
         "createCampaign",
     );
-}
-
-export function useGetDeployedCampaign(index, chainId) {
-    chainId = chainId ? chainId : DappConf.readOnlyChain;
-    const res = useContractCall({
-        abi: new utils.Interface(CampaingFactory.abi),
-        address: campaignFactoryAddresses[chainId],
-        method: "deployedCampaigns",
-        args: [index],
-    });
-    console.log("deployedCampaigns", res, chainId);
-    return res;
 }
