@@ -6,24 +6,24 @@ import { defaultBackground } from "../components/Background";
 import CampaignCardsGrid from "../components/CampaignCardsGrid";
 import { useGetCampaigns } from "../utils/CampaignFactoryInterfaces";
 
-function HomePage() {
+function HomePage({ areRunning }) {
     document.body.style.background = defaultBackground;
     const { chainId } = useEthers();
 
-    const deployedCampaignsAddresses = useGetCampaigns(chainId, 0, 5, true);
+    const campaignsAddresses = useGetCampaigns(chainId, 0, 5, areRunning);
 
-    if (!deployedCampaignsAddresses) return null;
+    if (!campaignsAddresses) return null;
 
     return (
         <div className="HomePage">
             <Box sx={{ mt: 3, mb: 3, ml: 1, color: "white" }}>
                 <Typography variant="h4" component="div" gutterBottom>
-                    Deployed Campaigns
+                    {`${areRunning ? "Running" : "Funded"} Campaigns`}
                 </Typography>
             </Box>
             <Box sx={{ m: 3 }}>
                 <CampaignCardsGrid
-                    deployedCampaignsAddresses={deployedCampaignsAddresses?.campaigns}
+                    campaignsAddresses={campaignsAddresses?.campaigns || []}
                 />
             </Box>
         </div>

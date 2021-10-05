@@ -18,7 +18,10 @@ ReactDOM.render(
                 <Layout>
                     <Switch>
                         <Route exact path="/">
-                            <HomePage />
+                            <HomePage areRunning={true} />
+                        </Route>
+                        <Route exact path="/funded">
+                            <HomePage areRunning={false} />
                         </Route>
                         <Route path="/campaign/:address">
                             <CampaignInfoPage />

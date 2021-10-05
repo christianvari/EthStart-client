@@ -2,9 +2,9 @@ import { Grid } from "@mui/material";
 import React from "react";
 import CampaignCard from "./CampaignCard";
 
-export default function CampaignCardsGrid({ deployedCampaignsAddresses }) {
+export default function CampaignCardsGrid({ campaignsAddresses }) {
     const getCards = () => {
-        return deployedCampaignsAddresses.map((elem, id) => (
+        return campaignsAddresses.map((elem, id) => (
             <Grid item xs={4} key={id}>
                 <CampaignCard contractAddress={elem} />
             </Grid>
