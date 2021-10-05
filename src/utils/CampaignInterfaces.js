@@ -48,7 +48,70 @@ export function useGetImageUrl(address) {
         args: [],
     });
     console.info("imageURL", res);
-    return res ? getIPFSURL(res) : null;
+    return res ? getIPFSURL(res[0]) : undefined;
+}
+
+export function useGetIsFunded(address) {
+    const res = useContractCall({
+        abi: ABI,
+        address,
+        method: "isCampaignFunded",
+        args: [],
+    });
+    console.info("isCampaignFunded", res);
+    return res ? res[0] : undefined;
+}
+export function useGetEndBlock(address) {
+    const res = useContractCall({
+        abi: ABI,
+        address,
+        method: "endBlock",
+        args: [],
+    });
+    console.info("endBlock", res);
+    return res ? res[0] : undefined;
+}
+export function useGetDescription(address) {
+    const res = useContractCall({
+        abi: ABI,
+        address,
+        method: "description",
+        args: [],
+    });
+    console.info("description", res);
+    return res ? res[0] : undefined;
+}
+export function useGetTokenSymbol(address) {
+    const res = useContractCall({
+        abi: ABI,
+        address,
+        method: "tokenSymbol",
+        args: [],
+    });
+    console.info("tokenSymbol", res);
+    return res ? res[0] : undefined;
+}
+
+export function useGetTokenAddress(address) {
+    const res = useContractCall({
+        abi: ABI,
+        address,
+        method: "tokenAddress",
+        args: [],
+    });
+    console.info("tokenAddress", res);
+    return res ? res[0] : undefined;
+}
+
+export function useGetTokenMaxSupply(address) {
+    const res = useContractCall({
+        abi: ABI,
+        address,
+        method: "tokenMaxSupply",
+        args: [],
+    });
+    console.info("tokenMaxSupply", res);
+    return res ? res[0] : undefined;
 }
 
 export function useGetContributerBalanceOf(address, account) {
@@ -59,7 +122,7 @@ export function useGetContributerBalanceOf(address, account) {
         args: [account],
     });
     console.info("contributerBalanceOf", res);
-    return res;
+    return res ? res[0] : undefined;
 }
 
 export function useContribute(address) {

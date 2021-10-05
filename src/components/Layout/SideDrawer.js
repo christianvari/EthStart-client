@@ -42,13 +42,13 @@ const SideDrawer = ({ isDrawerOpen, setDrawerOpen }) => {
                     <ListItem
                         button
                         onClick={() => {
-                            history.push("/funded");
+                            history.push("/closed");
                         }}
                     >
                         {/* <ListItemIcon>
                                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                     </ListItemIcon> */}
-                        <ListItemText primary="Funded campaigns" />
+                        <ListItemText primary="Closed campaigns" />
                     </ListItem>
                     <ListItem
                         button

@@ -3,43 +3,23 @@ import { Col, Row } from "react-bootstrap";
 import BalanceCard from "./BalanceCard";
 import TimeoutCard from "./TimeoutCard";
 import ContributeForm from "./ContributeForm";
-import { useGetFundingSummary } from "../utils/CampaignInterfaces";
-import { utils } from "ethers";
 import { Grid, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Box } from "@mui/system";
 import ReactMarkdown from "react-markdown";
+import {
+    useGetTitle,
+    useGetEndBlock,
+    useGetDescription,
+    useGetTokenSymbol,
+} from "../utils/CampaignInterfaces";
 
-const RunningCampaignInfoWidgets = ({ address, data }) => {
-    const fundingSummary = useGetFundingSummary(address);
-
-    if (!fundingSummary) return null;
-
-    data.totalDeposit = fundingSummary[0];
-    data.tokenSymbol = fundingSummary[4];
-    data.tokenName = fundingSummary[3];
-    data.timeout = fundingSummary[1];
-
-    data.pie = [
-        {
-            title: "Allocated Contributors",
-            value: data.tokenMaxSupply - data.totalDeposit - data.tokenMaxSupply / 4,
-            color: "#d9534f",
-        },
-        {
-            title: "Allocated Creator",
-            value: data.tokenMaxSupply / 4,
-            color: "#d9534f",
-        },
-        {
-            title: "Disponible",
-            value: parseInt(data.totalDeposit),
-            color: "#5cb85c",
-        },
-    ];
-
-    console.log(data);
+const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
+    const title = useGetTitle(address);
+    const endBlock = useGetEndBlock(address);
+    const description = useGetDescription(address);
+    const tokenSymbol = useGetTokenSymbol(address);
 
     return (
         <div className="RunningCampaing">
@@ -47,8 +27,8 @@ const RunningCampaignInfoWidgets = ({ address, data }) => {
                 <Grid item xs={6}>
                     <img
                         id="gradient-generator"
-                        src={data.imageURL}
-                        alt={data.title}
+                        src={imageUrl}
+                        alt={title?.title}
                         style={{
                             width: "100%",
                             maxHeight: "25rem",
@@ -57,33 +37,24 @@ const RunningCampaignInfoWidgets = ({ address, data }) => {
                     />
                     <Box sx={{ color: "white" }}>
                         <Typography gutterBottom variant="h3">
-                            {data.title}
+                            {title?.title}
                         </Typography>
                         <Typography gutterBottom variant="h4">
-                            {data.subTitle}
-                        </Typography>
-                        <Typography gutterBottom variant="subtitle1">
-                            {`Total supply: ${utils.formatEther(data.tokenMaxSupply)} ${
-                                data.tokenSymbol
-                            }`}
+                            {title?.subtitle}
                         </Typography>
                         <Typography gutterBottom variant="h5">
                             Description
                         </Typography>
                         <Typography>
-                            <ReactMarkdown>{data.description}</ReactMarkdown>
+                            <ReactMarkdown>{description}</ReactMarkdown>
                         </Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
-                    <TimeoutCard timeout={data.timeout} />
+                    <TimeoutCard timeout={endBlock} />
                     <Card>
                         <CardContent>
-                            <ContributeForm
-                                address={address}
-                                symbol={data.tokenSymbol}
-                                price={data.tokenPrice}
-                            />
+                            <ContributeForm address={address} symbol={tokenSymbol} />
                         </CardContent>
                     </Card>
 
@@ -150,7 +121,12 @@ const RunningCampaignInfoWidgets = ({ address, data }) => {
                                 </Col>
                             </Row>
 
-                            <BalanceCard contractAddress={address} data={data} />
+                            <BalanceCard
+                                contractAddress={address}
+                                isFunded={isFunded}
+                                tokenSymbol={tokenSymbol}
+                                imageUrl={imageUrl}
+                            />
                         </Col>
                         <Col>
                             {/* <Card border="secondary">

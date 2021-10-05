@@ -4,21 +4,33 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { CardActions, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import { useGetContributerBalanceOf } from "../utils/CampaignInterfaces";
-import { useEthers } from "@usedapp/core";
+import {
+    useGetContributerBalanceOf,
+    useGetTokenAddress,
+    useGetTokenMaxSupply,
+} from "../utils/CampaignInterfaces";
+import { useEtherBalance, useEthers } from "@usedapp/core";
 import { utils } from "ethers";
 
-export default function BalanceCard({ data, contractAddress }) {
+export default function BalanceCard({
+    contractAddress,
+    isFunded,
+    tokenSymbol,
+    imageURL,
+}) {
     const { account } = useEthers();
-    const balance = useGetContributerBalanceOf(contractAddress, account) || 0;
+    const balance = useGetContributerBalanceOf(contractAddress, account);
+    const totalDeposit = useEtherBalance(contractAddress);
+    const tokenAddress = useGetTokenAddress(contractAddress);
+    const tokenMaxSupply = useGetTokenMaxSupply(contractAddress);
 
     return (
         <Card>
             <CardContent>
                 <Typography gutterBottom variant="h5">
-                    {data.isFunded ? "Your Balance" : "Your  Deposit"}
+                    {isFunded ? "Your Balance" : "Your  Deposit"}
                 </Typography>
-                {data.isFunded ? (
+                {isFunded ? (
                     <div>
                         <Typography variant="h2" style={{ textAlign: "center" }}>
                             {`${
@@ -47,23 +59,21 @@ export default function BalanceCard({ data, contractAddress }) {
                         <Typography variant="h2" style={{ textAlign: "center" }}>
                             {`${
                                 balance > 0
-                                    ? utils.formatEther(balance / data.totalDeposit)
+                                    ? utils.formatEther(
+                                          tokenMaxSupply.mul(balance).div(totalDeposit),
+                                      )
                                     : "0"
-                            } ${data.tokenSymbol}`}
+                            } ${tokenSymbol}`}
                         </Typography>
                     </div>
                 )}
             </CardContent>
-            {data.isFunded && (
+            {isFunded && (
                 <CardActions>
                     <Button
                         size="small"
                         onClick={() => {
-                            addTokenToMetamask(
-                                data.tokenAddress,
-                                data.tokenSymbol,
-                                data.imageURL,
-                            );
+                            addTokenToMetamask(tokenAddress, tokenSymbol, imageURL);
                         }}
                     >
                         Add this token to Metamask

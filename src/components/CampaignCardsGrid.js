@@ -40,9 +40,8 @@ export default function CampaignCardsGrid({ areRunning }) {
                         mt: 5,
                         p: 3,
                         borderRadius: 1,
-                        boxShadow: 5,
-                        color: "white",
                         display: "flex",
+                        justifyContent: "center",
                     }}
                 >
                     <CircularProgress />
