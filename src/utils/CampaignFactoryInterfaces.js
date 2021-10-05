@@ -4,6 +4,7 @@ import CampaignFactory from "../contractsABI/CampaignFactory.json";
 import { Contract } from "@ethersproject/contracts";
 import { ChainId } from "@usedapp/core";
 import DappConf from "./DappConf";
+import { useRef } from "react";
 
 const campaignFactoryAddresses = {
     [ChainId.Ropsten]: process.env.REACT_APP_CAMPAIGNFACTORY_ADDRESS_ROPSTEN,
@@ -14,6 +15,7 @@ const campaignFactoryAddresses = {
 const ABI = new utils.Interface(CampaignFactory.abi);
 
 export function useGetCampaigns(chainId, cursor, howMany, isRunning) {
+    const state = useRef({ list: [], prevCursor: null });
     chainId = chainId ? chainId : DappConf.readOnlyChain;
     const res = useContractCall({
         abi: ABI,
@@ -21,8 +23,15 @@ export function useGetCampaigns(chainId, cursor, howMany, isRunning) {
         method: "getCampaigns",
         args: [cursor, howMany, isRunning],
     });
-    console.log("getCampaigns", res, chainId);
-    return res ? { campaigns: res[0], length: res[1] } : null;
+    if (res && state.current.prevCursor !== cursor) {
+        state.current.list = [...state.current.list, ...res[0]];
+        state.current.prevCursor = cursor;
+    }
+    console.info("getCampaigns", res, cursor, howMany);
+    return {
+        campaigns: state.current.list,
+        length: res ? res[1].toNumber() : state.current.list.length,
+    };
 }
 
 export function useCreateCampaign(chainId) {

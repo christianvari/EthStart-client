@@ -13,7 +13,7 @@ export function useGetCampaignSummary(address) {
         method: "getCampaignSummary",
         args: [],
     });
-    console.log("getCampaignSummary", res);
+    console.info("getCampaignSummary", res);
     return res;
 }
 
@@ -24,7 +24,7 @@ export function useGetFundingSummary(address) {
         method: "getFundingSummary",
         args: [],
     });
-    console.log("getFundingSummary", res);
+    console.info("getFundingSummary", res);
     return res;
 }
 
@@ -35,7 +35,7 @@ export function useGetTitle(address) {
         method: "title",
         args: [],
     });
-    console.log("title", res);
+    console.info("title", res);
     return res
         ? { title: res[0].split("%%%%%")[0], subtitle: res[0].split("%%%%%")[1] }
         : null;
@@ -47,7 +47,7 @@ export function useGetImageUrl(address) {
         method: "imageURL",
         args: [],
     });
-    console.log("imageURL", res);
+    console.info("imageURL", res);
     return res ? getIPFSURL(res) : null;
 }
 
@@ -58,7 +58,7 @@ export function useGetContributerBalanceOf(address, account) {
         method: "contributerBalanceOf",
         args: [account],
     });
-    console.log("contributerBalanceOf", res);
+    console.info("contributerBalanceOf", res);
     return res;
 }
 

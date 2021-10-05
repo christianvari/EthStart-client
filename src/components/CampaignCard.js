@@ -14,10 +14,10 @@ const CampaignCard = React.memo(({ contractAddress, isFunded }) => {
     const imageUrl = useGetImageUrl(contractAddress);
 
     return (
-        <Card>
+        <Card sx={{ height: 375 }}>
             <CardMedia
                 component="img"
-                sx={{ height: "15rem" }}
+                sx={{ height: 240 }}
                 image={imageUrl}
                 alt={title?.title}
             />
