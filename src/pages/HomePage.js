@@ -4,13 +4,13 @@ import { useEthers } from "@usedapp/core";
 import React from "react";
 import { defaultBackground } from "../components/Background";
 import CampaignCardsGrid from "../components/CampaignCardsGrid";
-import { useGetDeployedCampaigns } from "../utils/CampaignFactoryInterfaces";
+import { useGetCampaigns } from "../utils/CampaignFactoryInterfaces";
 
 function HomePage() {
     document.body.style.background = defaultBackground;
     const { chainId } = useEthers();
 
-    const deployedCampaignsAddresses = useGetDeployedCampaigns(chainId);
+    const deployedCampaignsAddresses = useGetCampaigns(chainId, 0, 5, true);
 
     if (!deployedCampaignsAddresses) return null;
 
@@ -23,7 +23,7 @@ function HomePage() {
             </Box>
             <Box sx={{ m: 3 }}>
                 <CampaignCardsGrid
-                    deployedCampaignsAddresses={deployedCampaignsAddresses}
+                    deployedCampaignsAddresses={deployedCampaignsAddresses?.campaigns}
                 />
             </Box>
         </div>
