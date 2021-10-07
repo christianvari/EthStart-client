@@ -3,17 +3,7 @@ import { useHistory } from "react-router-dom";
 import { ChainId, useEthers } from "@usedapp/core";
 import { Divider, Drawer, List, ListItem, ListItemText } from "@mui/material";
 import { Box } from "@mui/system";
-
-const chainSwitch = (id, library) => {
-    library.provider.request({
-        method: "wallet_switchEthereumChain",
-        params: [
-            {
-                chainId: `0x${id.toString(16)}`,
-            },
-        ],
-    });
-};
+import { chainSwitch } from "../../utils/WalletProviderUtils";
 
 const SideDrawer = ({ isDrawerOpen, setDrawerOpen }) => {
     const history = useHistory();
