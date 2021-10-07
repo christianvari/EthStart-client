@@ -16,7 +16,7 @@ const ABI = new utils.Interface(CampaignFactory.abi);
 
 export function useGetCampaigns(chainId, cursor, howMany, isRunning) {
     const state = useRef({ list: [], prevCursor: null });
-    chainId = chainId ? chainId : DappConf.readOnlyChain;
+    chainId = chainId ? chainId : DappConf.readOnlyChainId;
     const res = useContractCall({
         abi: ABI,
         address: campaignFactoryAddresses[chainId],
@@ -35,9 +35,17 @@ export function useGetCampaigns(chainId, cursor, howMany, isRunning) {
 }
 
 export function useCreateCampaign(chainId) {
-    chainId = chainId ? chainId : DappConf.readOnlyChain;
+    chainId = chainId ? chainId : DappConf.readOnlyChainId;
     return useContractFunction(
         new Contract(campaignFactoryAddresses[chainId], ABI),
         "createCampaign",
+    );
+}
+
+export function useFinalizeCrowdfunding(chainId) {
+    chainId = chainId ? chainId : DappConf.readOnlyChain;
+    return useContractFunction(
+        new Contract(campaignFactoryAddresses[chainId], ABI),
+        "finalizeCrowdfunding",
     );
 }

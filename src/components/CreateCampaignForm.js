@@ -188,7 +188,7 @@ function CreateCampaignForm() {
                             endAdornment: (
                                 <InputAdornment position="end">Days</InputAdornment>
                             ),
-                            inputProps: { min: 0 },
+                            inputProps: { min: 0, max: 90, step: 1e-17 },
                         }}
                         fullWidth
                         type="number"

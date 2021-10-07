@@ -56,8 +56,8 @@ const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TimeoutCard timeout={endBlock} />
-                    <Card>
+                    <TimeoutCard timeout={endBlock} contractAddress={address} />
+                    <Card sx={{ mt: 3 }}>
                         <CardContent>
                             <ContributeForm address={address} symbol={tokenSymbol} />
                         </CardContent>
