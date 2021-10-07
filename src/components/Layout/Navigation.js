@@ -33,7 +33,7 @@ const Navigation = () => {
                 <SideDrawer isDrawerOpen={isDrawerOpen} setDrawerOpen={setDrawerOpen} />
             )}
             <AppBar position="static" sx={{ bgcolor: "rgba(0,0,0,.25)" }}>
-                <Toolbar sx={{ gap: 2.5 }}>
+                <Toolbar sx={{ gap: 4 }}>
                     {isMobile && (
                         <IconButton
                             size="large"
@@ -46,34 +46,36 @@ const Navigation = () => {
                             <MenuIcon />
                         </IconButton>
                     )}
-                    <Typography variant="h6">CryptoStarter</Typography>
+                    <Typography variant="h5">CRYPTOSTARTER</Typography>
                     {!isMobile && (
                         <>
-                            <Button
-                                color="inherit"
-                                onClick={() => {
-                                    history.push("/");
-                                }}
-                            >
-                                Home
-                            </Button>
-                            <Button
-                                color="inherit"
-                                onClick={() => {
-                                    history.push("/closed");
-                                }}
-                            >
-                                Closed campaigns
-                            </Button>
-                            <Button
-                                color="inherit"
-                                onClick={() => {
-                                    history.push("/new");
-                                }}
-                                disabled={!account}
-                            >
-                                New Campaign
-                            </Button>
+                            <Box sx={{ flex: "flex", gap: 1 }}>
+                                <Button
+                                    color="inherit"
+                                    onClick={() => {
+                                        history.push("/");
+                                    }}
+                                >
+                                    Home
+                                </Button>
+                                <Button
+                                    color="inherit"
+                                    onClick={() => {
+                                        history.push("/closed");
+                                    }}
+                                >
+                                    Closed campaigns
+                                </Button>
+                                <Button
+                                    color="inherit"
+                                    onClick={() => {
+                                        history.push("/new");
+                                    }}
+                                    disabled={!account}
+                                >
+                                    New Campaign
+                                </Button>
+                            </Box>
 
                             <Box sx={{ ml: "auto" }}>
                                 {account ? (

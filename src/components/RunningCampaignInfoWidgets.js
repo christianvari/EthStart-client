@@ -1,6 +1,4 @@
 import React from "react";
-import { Col, Row } from "react-bootstrap";
-import BalanceCard from "./BalanceCard";
 import TimeoutCard from "./TimeoutCard";
 import ContributeForm from "./ContributeForm";
 import { Grid, Typography } from "@mui/material";
@@ -14,6 +12,7 @@ import {
     useGetDescription,
     useGetTokenSymbol,
 } from "../utils/CampaignInterfaces";
+import BalanceStatusBar from "./BalanceStatusBar";
 
 const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
     const title = useGetTitle(address);
@@ -42,6 +41,12 @@ const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
                         <Typography gutterBottom variant="h4">
                             {title?.subtitle}
                         </Typography>
+                        <BalanceStatusBar
+                            contractAddress={address}
+                            isFunded={isFunded}
+                            tokenSymbol={tokenSymbol}
+                            imageUrl={imageUrl}
+                        />
                         <Typography gutterBottom variant="h5">
                             Description
                         </Typography>
@@ -57,96 +62,6 @@ const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
                             <ContributeForm address={address} symbol={tokenSymbol} />
                         </CardContent>
                     </Card>
-
-                    <Row style={{ marginTop: "2.5vh" }}>
-                        <Col>
-                            <Row>
-                                <Col>
-                                    {/* <Card border="secondary">
-                                        <Card.Header>Token's info</Card.Header>
-                                        <Card.Body>
-                                            <h4>
-                                                <Row>
-                                                    <Col>Name:</Col>
-                                                    <Col>
-                                                        <Badge variant="secondary">
-                                                            {data.tokenName}
-                                                        </Badge>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col>Symbol:</Col>
-                                                    <Col>
-                                                        <Badge variant="secondary">
-                                                            {data.tokenSymbol}
-                                                        </Badge>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col>Price:</Col>
-                                                    <Col>
-                                                        <Badge variant="secondary">
-                                                            {utils.formatUnits(
-                                                                data.tokenPrice,
-                                                                "ether",
-                                                            )}
-                                                        </Badge>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col>Max supply:</Col>
-                                                    <Col>
-                                                        <Badge variant="secondary">
-                                                            {utils.formatUnits(
-                                                                data.tokenMaxSupply,
-                                                                "ether",
-                                                            )}
-                                                        </Badge>
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col>Available:</Col>
-                                                    <Col>
-                                                        <Badge variant="secondary">
-                                                            {utils.formatUnits(
-                                                                data.totalDeposit,
-                                                                "ether",
-                                                            )}
-                                                        </Badge>
-                                                    </Col>
-                                                </Row>
-                                            </h4>
-                                        </Card.Body>
-                                    </Card> */}
-                                </Col>
-                            </Row>
-
-                            <BalanceCard
-                                contractAddress={address}
-                                isFunded={isFunded}
-                                tokenSymbol={tokenSymbol}
-                                imageUrl={imageUrl}
-                            />
-                        </Col>
-                        <Col>
-                            {/* <Card border="secondary">
-                                <Card.Header>Tokens allocation</Card.Header>
-                                <Card.Body>
-                                    <PieChart
-                                        data={data.pie}
-                                        lineWidth={50}
-                                        label={({ dataEntry }) => dataEntry.value}
-                                        labelStyle={(index) => ({
-                                            fill: "#fff",
-                                            fontSize: "10px",
-                                            fontFamily: "sans-serif",
-                                        })}
-                                        labelPosition={70}
-                                    />
-                                </Card.Body>
-                            </Card> */}
-                        </Col>
-                    </Row>
                 </Grid>
             </Grid>
         </div>
