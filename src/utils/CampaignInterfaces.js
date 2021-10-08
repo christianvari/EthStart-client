@@ -6,28 +6,6 @@ import { getIPFSURL } from "./IPFSUtils";
 
 const ABI = new utils.Interface(Campaign.abi);
 
-export function useGetCampaignSummary(address) {
-    const res = useContractCall({
-        abi: ABI,
-        address,
-        method: "getCampaignSummary",
-        args: [],
-    });
-    console.info("getCampaignSummary", res);
-    return res;
-}
-
-export function useGetFundingSummary(address) {
-    const res = useContractCall({
-        abi: ABI,
-        address,
-        method: "getFundingSummary",
-        args: [],
-    });
-    console.info("getFundingSummary", res);
-    return res;
-}
-
 export function useGetTitle(address) {
     const res = useContractCall({
         abi: ABI,
@@ -61,14 +39,14 @@ export function useGetIsFunded(address) {
     console.info("isCampaignFunded", res);
     return res ? res[0] : undefined;
 }
-export function useGetEndBlock(address) {
+export function useGetTimeout(address) {
     const res = useContractCall({
         abi: ABI,
         address,
-        method: "endBlock",
+        method: "timeout",
         args: [],
     });
-    console.info("endBlock", res);
+    console.info("timeout", res);
     return res ? res[0] : undefined;
 }
 export function useGetDescription(address) {
@@ -111,6 +89,17 @@ export function useGetTokenMaxSupply(address) {
         args: [],
     });
     console.info("tokenMaxSupply", res);
+    return res ? res[0] : undefined;
+}
+
+export function useGetCreationTimestamp(address) {
+    const res = useContractCall({
+        abi: ABI,
+        address,
+        method: "creationTimestamp",
+        args: [],
+    });
+    console.info("creationTimestamp", res);
     return res ? res[0] : undefined;
 }
 

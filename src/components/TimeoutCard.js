@@ -1,24 +1,31 @@
 import { LinearProgress, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useBlockNumber, useEthers } from "@usedapp/core";
+import { useEthers } from "@usedapp/core";
 import React from "react";
 import { LoadingButton } from "@mui/lab";
 import { useFinalizeCrowdfunding } from "../utils/CampaignFactoryInterfaces";
+import Countdown from "react-countdown";
+import { useGetCreationTimestamp, useGetTimeout } from "../utils/CampaignInterfaces";
 
-const TimeoutCard = ({ timeout, contractAddress }) => {
-    const blockNumber = useBlockNumber();
+const TimeoutCard = ({ contractAddress }) => {
+    const creationTimestamp = useGetCreationTimestamp(contractAddress);
+    const timeout = useGetTimeout(contractAddress);
 
-    const getTime = () => {
-        const time = (timeout - blockNumber) * 13000;
-        const seconds = Math.floor(time / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-        return `${days} Days ${hours % 24} Hours ${minutes % 60} Minutes`;
-    };
+    if (!timeout) return null;
 
-    const percentage = timeout && blockNumber ? (blockNumber * 100) / timeout : 0;
-    const isTerminated = blockNumber > timeout;
+    const percentage =
+        timeout && creationTimestamp
+            ? ((Date.now() - creationTimestamp.toNumber() * 1000) /
+                  ((timeout.toNumber() - creationTimestamp.toNumber()) * 1000)) *
+              100
+            : 0;
+
+    console.log(
+        (Date.now() - creationTimestamp.toNumber() * 1000) /
+            ((timeout.toNumber() - creationTimestamp.toNumber()) * 1000),
+    );
+
+    const isTerminated = Date.now() > timeout.toNumber() * 1000;
 
     return (
         <Box sx={{ p: 3, bgcolor: "rgba(0,0,0,.2)", color: "white" }}>
@@ -29,15 +36,13 @@ const TimeoutCard = ({ timeout, contractAddress }) => {
             ) : (
                 <Box>
                     <Box sx={{ display: "flex" }}>
-                        <Typography gutterBottom variant="body1">
-                            Time left:
+                        <Typography gutterBottom variant="h6">
+                            Remaining funding time:
                         </Typography>
-                        <Typography
-                            gutterBottom
-                            variant="body1"
-                            sx={{ ml: "auto", mr: 2 }}
-                        >
-                            <strong>{getTime()}</strong>
+                        <Typography gutterBottom variant="h6" sx={{ ml: "auto", mr: 2 }}>
+                            <strong>
+                                <Countdown date={timeout.toNumber() * 1000} />
+                            </strong>
                         </Typography>
                     </Box>
 

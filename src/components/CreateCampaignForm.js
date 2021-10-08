@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { utils } from "ethers";
+import { utils, BigNumber } from "ethers";
 import { useCreateCampaign } from "../utils/CampaignFactoryInterfaces";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -9,6 +9,8 @@ import { Grid, InputAdornment, Typography } from "@mui/material";
 import { useEthers } from "@usedapp/core";
 import IPFSFileLoader from "./IPFSFileLoader";
 import MDEditor from "@uiw/react-md-editor";
+
+const DAY_S = 60 * 60 * 24;
 
 function CreateCampaignForm() {
     const [formData, setFormData] = useState({
@@ -19,11 +21,11 @@ function CreateCampaignForm() {
         tokenName: null,
         tokenSymbol: null,
         tokenMaxSupply: null,
-        endBlock: null,
+        timeout: null,
     });
     const [validated, setValidated] = useState(false);
     const history = useHistory();
-    const { chainId, library } = useEthers();
+    const { chainId } = useEthers();
     const { state, send } = useCreateCampaign(chainId);
 
     const sendTx = async () => {
@@ -34,8 +36,9 @@ function CreateCampaignForm() {
             utils.parseUnits(formData.tokenMaxSupply, "ether"),
             formData.tokenName,
             formData.tokenSymbol,
-            (await library.getBlockNumber()) +
-                Math.floor((parseInt(formData.endBlock) * 86400) / 13),
+            BigNumber.from(
+                Math.floor(parseInt(formData.timeout) * DAY_S + Date.now() / 1000),
+            ),
         );
     };
 
@@ -188,11 +191,11 @@ function CreateCampaignForm() {
                             endAdornment: (
                                 <InputAdornment position="end">Days</InputAdornment>
                             ),
-                            inputProps: { min: 0, max: 90, step: 1e-17 },
+                            inputProps: { min: 1, max: 90 },
                         }}
                         fullWidth
                         type="number"
-                        onChange={(e) => handleChange(e, "endBlock")}
+                        onChange={(e) => handleChange(e, "timeout")}
                         variant="filled"
                     />
                 </Grid>

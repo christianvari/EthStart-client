@@ -8,7 +8,6 @@ import { Box } from "@mui/system";
 import ReactMarkdown from "react-markdown";
 import {
     useGetTitle,
-    useGetEndBlock,
     useGetDescription,
     useGetTokenSymbol,
 } from "../utils/CampaignInterfaces";
@@ -16,7 +15,6 @@ import BalanceStatusBar from "./BalanceStatusBar";
 
 const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
     const title = useGetTitle(address);
-    const endBlock = useGetEndBlock(address);
     const description = useGetDescription(address);
     const tokenSymbol = useGetTokenSymbol(address);
 
@@ -56,7 +54,7 @@ const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TimeoutCard timeout={endBlock} contractAddress={address} />
+                    <TimeoutCard contractAddress={address} />
                     <Card sx={{ mt: 3 }}>
                         <CardContent>
                             <ContributeForm address={address} symbol={tokenSymbol} />
