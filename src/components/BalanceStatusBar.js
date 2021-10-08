@@ -24,7 +24,7 @@ const BalanceStatusBar = ({ contractAddress, isFunded, tokenSymbol, imageURL }) 
             : 0;
 
     return (
-        <Box sx={{ mt: 3, mb: 3, p: 3, bgcolor: "rgba(0,0,0,.2)" }}>
+        <Box sx={{ mt: 3, mb: 3, p: 3, bgcolor: "rgba(0,0,0,.2)", color: "white" }}>
             <Box sx={{ display: "flex" }}>
                 <Typography gutterBottom variant="body1">
                     Total deposit:

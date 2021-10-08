@@ -2,8 +2,7 @@ import React from "react";
 import TimeoutCard from "./TimeoutCard";
 import ContributeForm from "./ContributeForm";
 import { Grid, Typography } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+
 import { Box } from "@mui/system";
 import ReactMarkdown from "react-markdown";
 import {
@@ -39,12 +38,7 @@ const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
                         <Typography gutterBottom variant="h4">
                             {title?.subtitle}
                         </Typography>
-                        <BalanceStatusBar
-                            contractAddress={address}
-                            isFunded={isFunded}
-                            tokenSymbol={tokenSymbol}
-                            imageUrl={imageUrl}
-                        />
+
                         <Typography gutterBottom variant="h5">
                             Description
                         </Typography>
@@ -54,12 +48,16 @@ const RunningCampaignInfoWidgets = ({ address, imageUrl, isFunded }) => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TimeoutCard contractAddress={address} />
-                    <Card sx={{ mt: 3 }}>
-                        <CardContent>
-                            <ContributeForm address={address} symbol={tokenSymbol} />
-                        </CardContent>
-                    </Card>
+                    <Box sx={{ mb: 3 }}>
+                        <TimeoutCard contractAddress={address} />
+                    </Box>
+                    <BalanceStatusBar
+                        contractAddress={address}
+                        isFunded={isFunded}
+                        tokenSymbol={tokenSymbol}
+                        imageUrl={imageUrl}
+                    />
+                    <ContributeForm address={address} symbol={tokenSymbol} />
                 </Grid>
             </Grid>
         </div>

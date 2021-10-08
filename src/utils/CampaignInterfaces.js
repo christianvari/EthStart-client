@@ -117,3 +117,7 @@ export function useGetContributerBalanceOf(address, account) {
 export function useContribute(address) {
     return useContractFunction(new Contract(address, ABI), "contribute");
 }
+
+export function useRedeem(address) {
+    return useContractFunction(new Contract(address, ABI), "contribute");
+}

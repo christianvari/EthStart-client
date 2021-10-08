@@ -81,6 +81,7 @@ function CreateCampaignForm() {
                 "& .MuiInputLabel-root": {
                     color: "white",
                 },
+                "& .MuiTypography-root": { color: "white" },
             }}
             component="form"
             noValidate

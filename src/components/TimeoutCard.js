@@ -20,11 +20,6 @@ const TimeoutCard = ({ contractAddress }) => {
               100
             : 0;
 
-    console.log(
-        (Date.now() - creationTimestamp.toNumber() * 1000) /
-            ((timeout.toNumber() - creationTimestamp.toNumber()) * 1000),
-    );
-
     const isTerminated = Date.now() > timeout.toNumber() * 1000;
 
     return (
