@@ -11,6 +11,7 @@ import DappConf from "./utils/DappConf";
 
 import "./index.css";
 import ClosedCampaigns from "./pages/ClosedCampaigns";
+import RunningCampaigns from "./pages/RunningCampiagns";
 
 ReactDOM.render(
     <React.StrictMode>
@@ -20,6 +21,9 @@ ReactDOM.render(
                     <Switch>
                         <Route exact path="/">
                             <HomePage />
+                        </Route>
+                        <Route exact path="/running">
+                            <RunningCampaigns />
                         </Route>
                         <Route exact path="/closed">
                             <ClosedCampaigns />

@@ -27,7 +27,18 @@ const SideDrawer = ({ isDrawerOpen, setDrawerOpen }) => {
                         {/* <ListItemIcon>
                                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                     </ListItemIcon> */}
-                        <ListItemText primary="Running campaigns" />
+                        <ListItemText primary="Home" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            history.push("/running");
+                        }}
+                    >
+                        {/* <ListItemIcon>
+                                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    </ListItemIcon> */}
+                        <ListItemText primary="Running" />
                     </ListItem>
                     <ListItem
                         button
@@ -38,7 +49,7 @@ const SideDrawer = ({ isDrawerOpen, setDrawerOpen }) => {
                         {/* <ListItemIcon>
                                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                     </ListItemIcon> */}
-                        <ListItemText primary="Closed campaigns" />
+                        <ListItemText primary="Closed" />
                     </ListItem>
                     <ListItem
                         button
@@ -49,7 +60,7 @@ const SideDrawer = ({ isDrawerOpen, setDrawerOpen }) => {
                         {/* <ListItemIcon>
                                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                     </ListItemIcon> */}
-                        <ListItemText primary="New Campaign" />
+                        <ListItemText primary="New" />
                     </ListItem>
                 </List>
                 <Divider />

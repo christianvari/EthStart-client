@@ -61,10 +61,18 @@ const Navigation = () => {
                                 <Button
                                     color="inherit"
                                     onClick={() => {
+                                        history.push("/running");
+                                    }}
+                                >
+                                    Running
+                                </Button>
+                                <Button
+                                    color="inherit"
+                                    onClick={() => {
                                         history.push("/closed");
                                     }}
                                 >
-                                    Closed campaigns
+                                    Closed
                                 </Button>
                                 <Button
                                     color="inherit"
@@ -73,7 +81,7 @@ const Navigation = () => {
                                     }}
                                     disabled={!account}
                                 >
-                                    New Campaign
+                                    Create
                                 </Button>
                             </Box>
 
