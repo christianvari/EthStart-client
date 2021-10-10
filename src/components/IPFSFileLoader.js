@@ -30,6 +30,7 @@ const IPFSFileLoader = React.memo(({ setImageURL }) => {
         const resizedFile = await resizeFile(file);
         try {
             const added = await client.add(resizedFile);
+
             setImageURL(added.path);
         } catch (error) {
             console.log("Error uploading file: ", error);
