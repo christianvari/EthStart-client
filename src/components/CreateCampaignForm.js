@@ -9,6 +9,7 @@ import { Grid, InputAdornment, Typography } from "@mui/material";
 import { useEthers } from "@usedapp/core";
 import IPFSFileLoader from "./IPFSFileLoader";
 import MDEditor from "@uiw/react-md-editor";
+import { save } from "../utils/IPFSUtils";
 
 const DAY_S = 60 * 60 * 24;
 
@@ -32,7 +33,7 @@ function CreateCampaignForm() {
         send(
             `${formData.title}%%%%%${formData.subTitle}`,
             formData.imageURL,
-            formData.description,
+            (await save(formData.description)).path,
             utils.parseUnits(formData.tokenMaxSupply, "ether"),
             formData.tokenName,
             formData.tokenSymbol,

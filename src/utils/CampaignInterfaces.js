@@ -2,7 +2,8 @@ import { useContractCall, useContractFunction } from "@usedapp/core";
 import { utils } from "ethers";
 import Campaign from "../contractsABI/Campaign.json";
 import { Contract } from "@ethersproject/contracts";
-import { getIPFSURL } from "./IPFSUtils";
+import { getIPFSURL, retrive } from "./IPFSUtils";
+import { useEffect, useState } from "react";
 
 const ABI = new utils.Interface(Campaign.abi);
 
@@ -50,14 +51,28 @@ export function useGetTimeout(address) {
     return res ? res[0] : undefined;
 }
 export function useGetDescription(address) {
+    const [result, setResult] = useState();
+
     const res = useContractCall({
         abi: ABI,
         address,
         method: "description",
         args: [],
     });
-    console.info("description", res);
-    return res ? res[0] : undefined;
+
+    useEffect(() => {
+        async function grtDataFromIPFS() {
+            const response = await retrive(res[0]);
+            setResult(response);
+        }
+
+        if (res && res[0]) {
+            grtDataFromIPFS();
+        }
+    }, [res]);
+
+    console.info("description", res, result);
+    return result;
 }
 export function useGetTokenSymbol(address) {
     const res = useContractCall({

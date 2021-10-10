@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { create } from "ipfs-http-client";
 import { LoadingButton } from "@mui/lab";
 import Resizer from "react-image-file-resizer";
-
-const client = create("https://ipfs.infura.io:5001/api/v0");
+import { save } from "../utils/IPFSUtils";
 
 const resizeFile = (file) =>
     new Promise((resolve) => {
@@ -29,8 +27,7 @@ const IPFSFileLoader = React.memo(({ setImageURL }) => {
         const file = e.target.files[0];
         const resizedFile = await resizeFile(file);
         try {
-            const added = await client.add(resizedFile);
-
+            const added = await save(resizedFile);
             setImageURL(added.path);
         } catch (error) {
             console.log("Error uploading file: ", error);
